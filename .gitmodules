@@ -1,0 +1,3 @@
+[submodule "tagsystem"]
+	path = tagsystem
+	url = git@github.com:grastvei007/tagsystem.git
