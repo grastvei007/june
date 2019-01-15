@@ -4,3 +4,6 @@
 [submodule "device"]
 	path = device
 	url = git@github.com:grastvei007/device.git
+[submodule "hwcom"]
+	path = hwcom
+	url = git@github.com:grastvei007/junehwcom.git
