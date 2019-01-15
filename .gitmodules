@@ -7,3 +7,6 @@
 [submodule "hwcom"]
 	path = hwcom
 	url = git@github.com:grastvei007/junehwcom.git
+[submodule "server"]
+	path = server
+	url = git@github.com:grastvei007/juneserver.git
