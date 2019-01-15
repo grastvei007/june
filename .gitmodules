@@ -10,3 +10,6 @@
 [submodule "server"]
 	path = server
 	url = git@github.com:grastvei007/juneserver.git
+[submodule "influxdb"]
+	path = influxdb
+	url = git@github.com:grastvei007/influxdb.git
