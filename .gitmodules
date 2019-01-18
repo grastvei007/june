@@ -13,3 +13,6 @@
 [submodule "influxdb"]
 	path = influxdb
 	url = git@github.com:grastvei007/influxdb.git
+[submodule "avr"]
+	path = avr
+	url = git@github.com:grastvei007/avr.git
