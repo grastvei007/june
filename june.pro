@@ -11,7 +11,8 @@ SUBDIRS += \
 #    piclient \
 #    heater \
 #    junemodulerunner \
-    hwcom
+    hwcom \
+    virtualAvr
 
 
 hwcom.file = hwcom/junehwcom.pro
