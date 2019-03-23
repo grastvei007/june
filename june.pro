@@ -13,7 +13,7 @@ SUBDIRS += \
 #    junemodulerunner \
     hwcom \
     virtualAvr \
-    testpanel
+   # testpanel
 
 
 hwcom.file = hwcom/junehwcom.pro
