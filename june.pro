@@ -2,6 +2,8 @@ TEMPLATE = subdirs
 
 
 SUBDIRS += \
+    bluepower \
+    june \
     tagsystem \
     device \
 #    june \
