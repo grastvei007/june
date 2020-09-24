@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 
 SUBDIRS += \
-    bluepower \
+#    bluepower \
     june \
     tagsystem \
     device \
@@ -10,11 +10,11 @@ SUBDIRS += \
     influxdb \
      server \
 #    junetool \
-#    piclient \
+    piclient \
 #    heater \
 #    junemodulerunner \
-    hwcom \
-    virtualAvr \
+    hwcom
+#    virtualAvr \
    # testpanel
 
 
