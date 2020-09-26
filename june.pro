@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 
 
 SUBDIRS += \
+#    bluepower \
     june \
     tagsystem \
     device \
@@ -11,6 +12,12 @@ SUBDIRS += \
 #    junetool \
     piclient \
     hwcom
+#    heater \
+#    junemodulerunner \
+    hwcom
+#    virtualAvr \
+   # testpanel
+
 
 
 hwcom.file = hwcom/junehwcom.pro

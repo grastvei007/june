@@ -1,11 +1,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+
 #include <QMainWindow>
 
 namespace Ui {
 class MainWindow;
 }
+
+class MenuBar;
 
 class MainWindow : public QMainWindow
 {
@@ -17,6 +21,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    std::unique_ptr<MenuBar> mMenuBar;
 };
 
 #endif // MAINWINDOW_H

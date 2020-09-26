@@ -27,6 +27,9 @@ RCC_DIR = $$BUILDDIR/.qrc
 UI_DIR = $$BUILDDIR/.ui
 
 
+DESTDIR = $$(DEV_BIN)
+
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -43,7 +46,6 @@ INCLUDEPATH += $$(JUNE_ROOT)
 if(debug){
 
     LIBS += -L$$(DEV_LIBS) -ltagsystemd
-#LIBS += -ltagsystemd
 }
 else{
     LIBS += -L$$(DEV_LIBS) -ltagsystem
@@ -52,11 +54,13 @@ else{
 
 SOURCES += \
         app.cpp \
+        gui/menubar.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
         app.h \
+        gui/menubar.h \
         mainwindow.h
 
 FORMS += \
