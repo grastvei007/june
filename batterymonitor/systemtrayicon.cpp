@@ -36,15 +36,15 @@ void SystemTrayIcon::onStateOfChargeChange(double aValue)
     mSystemTrayIcon->setToolTip(str);
 
     BatteryIndicator::State currentState = BatteryIndicator::eLevel1;
-    if(aValue > 90.0)
+    if(percent > 90.0)
         currentState = BatteryIndicator::eLevel1;
-    else if(aValue > 70.0)
+    else if(percent > 70.0)
         currentState = BatteryIndicator::eLevel2;
-    else if(aValue > 50.0)
+    else if(percent > 50.0)
         currentState = BatteryIndicator::eLevel3;
-    else if(aValue > 35.0)
+    else if(percent > 35.0)
         currentState = BatteryIndicator::eLevel4;
-    else if(aValue > 25.0)
+    else if(percent > 25.0)
         currentState = BatteryIndicator::eLevel5;
 
     if(currentState != mBatteryState)

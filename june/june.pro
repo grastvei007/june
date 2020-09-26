@@ -4,15 +4,31 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = june
+CONFIG += c++19
+if(debug){
+    CONFIG += console
+}
+CONFIG -= app_bundle
 TEMPLATE = app
 
+release: TARGET = june
+debug: TARGET = juned
+
+DESTDIR = $$(DEV_BIN)
+
+release: BUILDDIR = build/release
+debug:   BUILDDIR = build/debug
+
+OBJECTS_DIR = $$BUILDDIR/.obj
+MOC_DIR = $$BUILDDIR/.moc
+RCC_DIR = $$BUILDDIR/.qrc
+UI_DIR = $$BUILDDIR/.ui
+
+
 # The following define makes your compiler emit warnings if you use
-# any feature of Qt which has been marked as deprecated (the exact warnings
+# any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -22,7 +38,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++19
+INCLUDEPATH += $$(JUNE_ROOT)
+
+if(debug){
+
+    LIBS += -L$$(DEV_LIBS) -ltagsystemd
+#LIBS += -ltagsystemd
+}
+else{
+    LIBS += -L$$(DEV_LIBS) -ltagsystem
+}
+
 
 SOURCES += \
         app.cpp \
