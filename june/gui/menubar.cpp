@@ -2,6 +2,7 @@
 
 #include <QMenu>
 #include <QAction>
+#include <QSettings>
 
 #include <tagsystem/taglistview.h>
 #include <tagsystem/tagsocketlistview.h>
@@ -26,7 +27,18 @@ MenuBar::MenuBar()
 void MenuBar::onTagListClicked(bool)
 {
     if(!mTagListViewWidget)
+    {
         mTagListViewWidget.reset(new TagListView);
+        connect(mTagListViewWidget.get(), &QWidget::destroyed, [&](){
+            QSettings settings("June", "June");
+            settings.setValue("taglistwidget/size", mTagListViewWidget->size());
+        });
+
+        QSettings settings("June", "June");
+        QSize size = settings.value("taglistwidget/size").toSize();
+        if(size.isValid())
+            mTagListViewWidget->resize(size);
+    }
 
     mTagListViewWidget->setVisible(true);
     mTagListViewWidget->raise();
@@ -35,8 +47,19 @@ void MenuBar::onTagListClicked(bool)
 void MenuBar::onTagSocketListClicked(bool)
 {
     if(!mTagSocketListViewWidget)
+    {
         mTagSocketListViewWidget.reset(new TagSocketListView);
 
+        connect(mTagSocketListViewWidget.get(), &QWidget::destroyed, [&](){
+            QSettings settings("June", "June");
+            settings.setValue("tagsocketlistwidget/size", mTagListViewWidget->size());
+        });
+
+        QSettings settings("June", "June");
+        QSize size = settings.value("tagsocketlistwidget/size").toSize();
+        if(size.isValid())
+            mTagSocketListViewWidget->resize(size);
+    }
     mTagSocketListViewWidget->setVisible(true);
     mTagSocketListViewWidget->raise();
 }
