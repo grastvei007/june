@@ -54,16 +54,21 @@ else{
 
 SOURCES += \
         app.cpp \
+        data/climatedata.cpp \
+        gui/climateguiwidget.cpp \
         gui/menubar.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
         app.h \
+        data/climatedata.h \
+        gui/climateguiwidget.h \
         gui/menubar.h \
         mainwindow.h
 
 FORMS += \
+        gui/climateguiwidget.ui \
         mainwindow.ui
 
 # Default rules for deployment.

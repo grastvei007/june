@@ -5,6 +5,8 @@
 
 #include <QMainWindow>
 
+class ClimateData;
+
 namespace Ui {
 class MainWindow;
 }
@@ -19,10 +21,13 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private:
     Ui::MainWindow *ui;
 
     std::unique_ptr<MenuBar> mMenuBar;
+
+    ClimateData *mClimateData = nullptr;
 };
 
 #endif // MAINWINDOW_H
