@@ -38,10 +38,10 @@ void ClimateGuiWidget::onRunningSliderValueChanged(int aValue)
 
 void ClimateGuiWidget::onFanSliderValueChanged(int aValue)
 {
-
+    mClimateData->setFan(aValue);
 }
 
 void ClimateGuiWidget::onHeatSliderValueChanged(int aValue)
 {
-
+    mClimateData->setHeat(aValue);
 }
