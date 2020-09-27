@@ -23,6 +23,9 @@ private slots:
     void onFanSliderValueChanged(int aValue);
     void onHeatSliderValueChanged(int aValue);
 
+    void onFanValueChanged(int aValue);
+    void onHeatValueChanged(int aValue);
+
 private:
     Ui::ClimateGuiWidget *ui;
     ClimateData *mClimateData;

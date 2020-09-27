@@ -18,6 +18,12 @@ public:
     void setFan(int aValue);
     void setHeat(int aValue);
 signals:
+    void fanValueChanged(int);
+    void heatValueChanged(int);
+
+private slots:
+    void onPiFanTagSocketValueChanged(int aValue);
+    void onPiHeatTagSocketValueChanged(int aValue);
 
 private:
     std::unique_ptr<TagSocket> mPowerTagSocket;
@@ -25,6 +31,11 @@ private:
     std::unique_ptr<TagSocket> mFanTagSocket;
     std::unique_ptr<TagSocket> mHeatTagSocket;
 
+    std::unique_ptr<TagSocket> mPiFanTagSocket;
+    std::unique_ptr<TagSocket> mPiHeatTagSocket;
+
+    int mFanValue = 0;
+    int mHeatValue = 0;
 };
 
 #endif // CLIMATEDATA_H
