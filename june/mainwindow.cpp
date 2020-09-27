@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QSettings>
+
 #include "gui/menubar.h"
 #include "gui/climateguiwidget.h"
 
@@ -24,6 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QSettings settings("June", "June");
+    settings.setValue("mainwindow/size", size());
+    QMainWindow::closeEvent(event);
 }
 
 

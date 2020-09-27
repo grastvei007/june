@@ -1,6 +1,8 @@
 #include "app.h"
 
 #include <QCommandLineParser>
+#include <QSettings>
+#include <QSize>
 
 #include <tagsystem/taglist.h>
 #include <tagsystem/tagsocketlist.h>
@@ -9,6 +11,12 @@
 App::App(int argc, char *argv[]) : QApplication (argc, argv)
 {
     mMainWindow = new MainWindow;
+
+    QSettings settings("June", "June");
+    QSize size =  settings.value("mainwindow/size").toSize();
+    if(size.isValid())
+        mMainWindow->resize(size);
+
     mMainWindow->show();
 
     QCommandLineParser parser;
