@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QSettings>
+#include <QListWidget>
+#include <QDockWidget>
 
 #include "gui/menubar.h"
 #include "gui/climateguiwidget.h"
@@ -18,8 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
     mMenuBar = std::make_unique<MenuBar>();
     setMenuBar(mMenuBar.get());
 
-    mClimateData = new ClimateData();
+    mListWidget = std::make_unique<QListWidget>(this);
+    mListWidget->addItem("Climate");
+    QDockWidget *listDockWidget = new QDockWidget();
+    listDockWidget->setWidget(mListWidget.get());
+    addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
+    mClimateData = new ClimateData();
     setCentralWidget(new ClimateGuiWidget(mClimateData));
 }
 
