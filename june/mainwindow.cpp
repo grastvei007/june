@@ -4,6 +4,7 @@
 #include <QSettings>
 #include <QListWidget>
 #include <QDockWidget>
+#include <QListWidgetItem>
 
 #include "gui/menubar.h"
 #include "gui/climateguiwidget.h"
@@ -21,13 +22,20 @@ MainWindow::MainWindow(QWidget *parent) :
     setMenuBar(mMenuBar.get());
 
     mListWidget = std::make_unique<QListWidget>(this);
-    mListWidget->addItem("Climate");
+    connect(mListWidget.get(), &QListWidget::itemClicked, this, &MainWindow::onListItemClicked);
+
     QDockWidget *listDockWidget = new QDockWidget();
     listDockWidget->setWidget(mListWidget.get());
     addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
+    QListWidgetItem *climateItem = new QListWidgetItem("Climate");
+    mListWidget->addItem(climateItem);
     mClimateData = new ClimateData();
-    setCentralWidget(new ClimateGuiWidget(mClimateData));
+    mCentralWidgets[climateItem] = std::make_unique<ClimateGuiWidget>(mClimateData);
+    setCentralWidget(mCentralWidgets[climateItem].get());
+
+    QListWidgetItem *triggerItem = new QListWidgetItem("Triggers");
+    mListWidget->addItem(triggerItem);
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +48,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QSettings settings("June", "June");
     settings.setValue("mainwindow/size", size());
     QMainWindow::closeEvent(event);
+}
+
+void MainWindow::onListItemClicked(QListWidgetItem *aItem)
+{
+
 }
 
 

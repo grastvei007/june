@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <memory>
+#include <map>
 
 #include <QMainWindow>
 
 class ClimateData;
 class QListWidget;
+class QListWidgetItem;
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +27,9 @@ public:
 protected:
     void closeEvent(QCloseEvent *event);
 
+private slots:
+    void onListItemClicked(QListWidgetItem *aItem);
+
 private:
     Ui::MainWindow *ui;
 
@@ -32,6 +37,8 @@ private:
     std::unique_ptr<QListWidget> mListWidget;
 
     ClimateData *mClimateData = nullptr;
+
+    std::map<QListWidgetItem*, std::unique_ptr<QWidget>> mCentralWidgets;
 };
 
 #endif // MAINWINDOW_H
