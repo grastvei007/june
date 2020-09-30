@@ -5,11 +5,15 @@
 #include <QListWidget>
 #include <QDockWidget>
 #include <QListWidgetItem>
+#include <QString>
+#include <QDebug>
 
 #include "gui/menubar.h"
 #include "gui/climateguiwidget.h"
+#include "gui/triggerguiwidget.h"
 
 #include "data/climatedata.h"
+#include "data/triggerdata.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,14 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
     listDockWidget->setWidget(mListWidget.get());
     addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
-    QListWidgetItem *climateItem = new QListWidgetItem("Climate");
-    mListWidget->addItem(climateItem);
     mClimateData = new ClimateData();
-    mCentralWidgets[climateItem] = std::make_unique<ClimateGuiWidget>(mClimateData);
-    setCentralWidget(mCentralWidgets[climateItem].get());
+    mTriggerData = new TriggerData();
 
-    QListWidgetItem *triggerItem = new QListWidgetItem("Triggers");
-    mListWidget->addItem(triggerItem);
+    mListWidget->addItem("Climate");
+    mListWidget->addItem("Triggers");
+
+    setCentralWidget(new ClimateGuiWidget(mClimateData));
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +55,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::onListItemClicked(QListWidgetItem *aItem)
 {
-
+    QString name = aItem->text();
+    if(name == "Climate")
+        setCentralWidget(new ClimateGuiWidget(mClimateData));
+    else if(name == "Triggers")
+        setCentralWidget(new TriggerGuiWidget(mTriggerData));
 }
 
 

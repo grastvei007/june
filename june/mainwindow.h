@@ -7,6 +7,7 @@
 #include <QMainWindow>
 
 class ClimateData;
+class TriggerData;
 class QListWidget;
 class QListWidgetItem;
 
@@ -37,8 +38,7 @@ private:
     std::unique_ptr<QListWidget> mListWidget;
 
     ClimateData *mClimateData = nullptr;
-
-    std::map<QListWidgetItem*, std::unique_ptr<QWidget>> mCentralWidgets;
+    TriggerData *mTriggerData = nullptr;
 };
 
 #endif // MAINWINDOW_H
