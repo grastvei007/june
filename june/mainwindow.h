@@ -16,6 +16,7 @@ class MainWindow;
 }
 
 class MenuBar;
+class StatusBar;
 
 class MainWindow : public QMainWindow
 {
@@ -35,6 +36,7 @@ private:
     Ui::MainWindow *ui;
 
     std::unique_ptr<MenuBar> mMenuBar;
+    std::unique_ptr<StatusBar> mStatusBar;
     std::unique_ptr<QListWidget> mListWidget;
 
     ClimateData *mClimateData = nullptr;
