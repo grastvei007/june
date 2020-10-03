@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #include "gui/menubar.h"
+#include "gui/statusbar.h"
 #include "gui/climateguiwidget.h"
 #include "gui/triggerguiwidget.h"
 
@@ -24,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mMenuBar = std::make_unique<MenuBar>();
     setMenuBar(mMenuBar.get());
+
+    mStatusBar = std::make_unique<StatusBar>();
+    setStatusBar(mStatusBar.get());
 
     mListWidget = std::make_unique<QListWidget>(this);
     connect(mListWidget.get(), &QListWidget::itemClicked, this, &MainWindow::onListItemClicked);
