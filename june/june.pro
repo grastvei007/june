@@ -59,6 +59,7 @@ SOURCES += \
         gui/climateguiwidget.cpp \
         gui/menubar.cpp \
         gui/statusbar.cpp \
+        gui/tabletool.cpp \
         gui/triggerguiwidget.cpp \
         main.cpp \
         mainwindow.cpp
@@ -70,6 +71,7 @@ HEADERS += \
         gui/climateguiwidget.h \
         gui/menubar.h \
         gui/statusbar.h \
+        gui/tabletool.h \
         gui/triggerguiwidget.h \
         mainwindow.h
 

@@ -3,7 +3,11 @@
 
 #include <QWidget>
 
+#include "tabletool.h"
+
 class TriggerData;
+class QResizeEvent;
+
 
 namespace Ui {
 class TriggerGuiWidget;
@@ -19,6 +23,7 @@ public:
 
 private:
     Ui::TriggerGuiWidget *ui;
+    TableTool mTableTool;
 };
 
 #endif // TRIGGERGUIWIDGET_H
