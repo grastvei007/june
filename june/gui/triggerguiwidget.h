@@ -8,7 +8,11 @@
 
 #include "triggerdatatablemodel.h"
 
+#include "tabletool.h"
+
 class TriggerData;
+class QResizeEvent;
+
 
 namespace Ui {
 class TriggerGuiWidget;
@@ -26,6 +30,8 @@ private:
 
     std::unique_ptr<QTableView> tableView_;
     std::unique_ptr<TriggerDataTableModel> tableModel_;
+
+    TableTool tableTool_;
 };
 
 #endif // TRIGGERGUIWIDGET_H
