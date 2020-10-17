@@ -2,20 +2,14 @@ TEMPLATE = subdirs
 
 
 SUBDIRS += \
-    bluepower \
+#    bluepower \
     june \
     tagsystem \
     device \
-#    june \
-    influxdb \
+#    influxdb \
      server \
-#    junetool \
-#    piclient \
-#    heater \
-#    junemodulerunner \
     hwcom \
-    virtualAvr \
-   # testpanel
+    junesmarthome
 
 
 hwcom.file = hwcom/junehwcom.pro
