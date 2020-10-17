@@ -6,7 +6,7 @@ SUBDIRS += \
     june \
     tagsystem \
     device \
-#    influxdb \
+    influxdb \
      server \
     hwcom \
     junesmarthome
