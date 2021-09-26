@@ -12,6 +12,7 @@
 
 class TriggerData;
 class QResizeEvent;
+class TriggerTableModel;
 
 
 namespace Ui {

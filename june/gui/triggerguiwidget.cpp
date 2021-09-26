@@ -1,6 +1,5 @@
 #include "triggerguiwidget.h"
 
-
 #include <QHeaderView>
 #include <QGridLayout>
 
