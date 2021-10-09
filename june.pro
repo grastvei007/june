@@ -8,8 +8,8 @@ SUBDIRS += \
     device \
     influxdb \
      server \
-    hwcom \
-    junesmarthome
+    hwcom # \
+#    junesmarthome
 
 
 
