@@ -56,6 +56,7 @@ SOURCES += \
         app.cpp \
         data/climatedata.cpp \
         data/triggerdata.cpp \
+        gui/addtriggerdialog.cpp \
         gui/climateguiwidget.cpp \
         gui/menubar.cpp \
         gui/statusbar.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
         app.h \
         data/climatedata.h \
         data/triggerdata.h \
+        gui/addtriggerdialog.h \
         gui/climateguiwidget.h \
         gui/menubar.h \
         gui/statusbar.h \
@@ -80,6 +82,7 @@ HEADERS += \
         triggermanager/triggertablemodel.h
 
 FORMS += \
+        gui/addtriggerdialog.ui \
         gui/climateguiwidget.ui \
         gui/triggerguiwidget.ui \
         mainwindow.ui

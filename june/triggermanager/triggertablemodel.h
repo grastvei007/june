@@ -2,6 +2,7 @@
 #define TRIGGERTABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QStringList>
 
 #include "triggermanager.h"
 
@@ -25,6 +26,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
+
+    QStringList triggerTypes();
+    QStringList trigger();
 
 private:
     TriggerManager *triggerManager_ = nullptr;

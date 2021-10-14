@@ -82,3 +82,13 @@ Qt::ItemFlags TriggerTableModel::flags(const QModelIndex &index) const
     Q_UNUSED(index);
     return Qt::ItemIsEnabled;
 }
+
+QStringList TriggerTableModel::triggerTypes()
+{
+    return {"TriggerValue"};
+}
+
+QStringList TriggerTableModel::trigger()
+{
+    return {"Trigger above value", "Trigger below value"};
+}

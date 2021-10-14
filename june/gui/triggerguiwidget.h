@@ -17,11 +17,15 @@ class TriggerGuiWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TriggerGuiWidget(QAbstractTableModel *triggerData, QWidget *parent = nullptr);
+    explicit TriggerGuiWidget(TriggerTableModel *triggerData, QWidget *parent = nullptr);
     ~TriggerGuiWidget();
+
+private slots:
+    void onAddTriggerClicked(bool);
 
 private:
     Ui::TriggerGuiWidget *ui;
+    TriggerTableModel *triggerTableModel_;
 };
 
 #endif // TRIGGERGUIWIDGET_H

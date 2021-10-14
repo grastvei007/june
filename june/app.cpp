@@ -13,7 +13,7 @@
 
 App::App(int argc, char *argv[]) : QApplication (argc, argv)
 {
-    QAbstractTableModel *triggerTableModel = new TriggerTableModel(triggerManager_);
+    TriggerTableModel *triggerTableModel = new TriggerTableModel(triggerManager_);
     TriggerGuiWidget *triggerGuiWidget = new TriggerGuiWidget(triggerTableModel);
 
     mMainWindow = new MainWindow(triggerGuiWidget);
