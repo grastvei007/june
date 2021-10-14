@@ -61,7 +61,10 @@ SOURCES += \
         gui/statusbar.cpp \
         gui/triggerguiwidget.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        triggermanager/trigger.cpp \
+        triggermanager/triggermanager.cpp \
+        triggermanager/triggertablemodel.cpp
 
 HEADERS += \
         app.h \
@@ -71,7 +74,10 @@ HEADERS += \
         gui/menubar.h \
         gui/statusbar.h \
         gui/triggerguiwidget.h \
-        mainwindow.h
+        mainwindow.h \
+        triggermanager/trigger.h \
+        triggermanager/triggermanager.h \
+        triggermanager/triggertablemodel.h
 
 FORMS += \
         gui/climateguiwidget.ui \
