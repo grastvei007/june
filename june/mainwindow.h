@@ -10,6 +10,7 @@ class ClimateData;
 class TriggerData;
 class QListWidget;
 class QListWidgetItem;
+class TriggerGuiWidget;
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(TriggerGuiWidget *triggerGuiWidget, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -40,7 +41,8 @@ private:
     std::unique_ptr<QListWidget> mListWidget;
 
     ClimateData *mClimateData = nullptr;
-    TriggerData *mTriggerData = nullptr;
+
+    TriggerGuiWidget *triggerGuiWidget  = nullptr;
 };
 
 #endif // MAINWINDOW_H

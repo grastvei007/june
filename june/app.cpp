@@ -7,10 +7,16 @@
 #include <tagsystem/taglist.h>
 #include <tagsystem/tagsocketlist.h>
 
+#include "gui/triggerguiwidget.h"
+#include "triggermanager/triggertablemodel.h"
+
 
 App::App(int argc, char *argv[]) : QApplication (argc, argv)
 {
-    mMainWindow = new MainWindow;
+    QAbstractTableModel *triggerTableModel = new TriggerTableModel(triggerManager_);
+    TriggerGuiWidget *triggerGuiWidget = new TriggerGuiWidget(triggerTableModel);
+
+    mMainWindow = new MainWindow(triggerGuiWidget);
 
     QSettings settings("June", "June");
     QSize size =  settings.value("mainwindow/size").toSize();

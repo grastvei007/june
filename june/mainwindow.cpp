@@ -16,11 +16,13 @@
 #include "data/climatedata.h"
 #include "data/triggerdata.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(TriggerGuiWidget *triggerGuiWidget, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    triggerGuiWidget(triggerGuiWidget)
 {
     ui->setupUi(this);
+
 
 
     mMenuBar = std::make_unique<MenuBar>();
@@ -37,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
     mClimateData = new ClimateData();
-    mTriggerData = new TriggerData();
 
     mListWidget->addItem("Climate");
     mListWidget->addItem("Triggers");
@@ -63,7 +64,7 @@ void MainWindow::onListItemClicked(QListWidgetItem *aItem)
     if(name == "Climate")
         setCentralWidget(new ClimateGuiWidget(mClimateData));
     else if(name == "Triggers")
-        setCentralWidget(new TriggerGuiWidget(mTriggerData));
+        setCentralWidget(triggerGuiWidget);
 }
 
 

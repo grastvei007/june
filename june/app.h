@@ -4,6 +4,8 @@
 #include <QApplication>
 #include "mainwindow.h"
 
+#include "triggermanager/triggermanager.h"
+
 class App : public QApplication
 {
     Q_OBJECT
@@ -16,6 +18,8 @@ public slots:
 
 private:
     MainWindow *mMainWindow = nullptr;
+
+    TriggerManager *triggerManager_ = new TriggerManager();
 };
 
 #endif // APP_H
