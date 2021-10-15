@@ -90,5 +90,11 @@ QStringList TriggerTableModel::triggerTypes()
 
 QStringList TriggerTableModel::trigger()
 {
-    return {"Trigger above value", "Trigger below value"};
+    return {TriggerFunction::toString(TriggerFunction::eTriggerAboveValue),
+                TriggerFunction::toString(TriggerFunction::eTriggerBelowValue)};
+}
+
+void TriggerTableModel::insertTrigger(Trigger *trigger)
+{
+    triggerManager_->addTrigger(trigger->name(), trigger);
 }

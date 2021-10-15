@@ -65,6 +65,7 @@ SOURCES += \
         mainwindow.cpp \
         triggermanager/trigger.cpp \
         triggermanager/triggermanager.cpp \
+        triggermanager/triggers/valuetrigger.cpp \
         triggermanager/triggertablemodel.cpp
 
 HEADERS += \
@@ -79,6 +80,7 @@ HEADERS += \
         mainwindow.h \
         triggermanager/trigger.h \
         triggermanager/triggermanager.h \
+        triggermanager/triggers/valuetrigger.h \
         triggermanager/triggertablemodel.h
 
 FORMS += \

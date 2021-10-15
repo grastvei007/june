@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QStringList>
 
+#include "../triggermanager/trigger.h"
+
 class TriggerTableModel;
 
 namespace Ui {
@@ -22,11 +24,15 @@ public:
 
 private slots:
     void onSelectTagClicked(bool);
+    void onTriggerTypeTextChanged(QString text);
+    void onTriggerTexetChanged(QString text);
 
 private:
     Ui::AddTriggerDialog *ui;
 
     TriggerTableModel *triggerTableModel_;
+
+    TriggerType triggerType_ = TriggerType::eNone;
 };
 
 #endif // ADDTRIGGERDIALOG_H

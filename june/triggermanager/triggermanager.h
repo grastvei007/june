@@ -9,8 +9,9 @@
 #include "trigger.h"
 
 
-class TriggerManager
+class TriggerManager : public QObject
 {
+    Q_OBJECT
 public:
     TriggerManager();
 
@@ -18,6 +19,9 @@ public:
 
     int numberOfTriggers() const;
     Trigger* getTriggerByIndex(int index);
+
+signals:
+    void triggerAdded();
 
 private:
     std::map<QString, Trigger*> triggers_;

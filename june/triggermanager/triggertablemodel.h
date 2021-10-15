@@ -30,6 +30,8 @@ public:
     QStringList triggerTypes();
     QStringList trigger();
 
+    void insertTrigger(Trigger *trigger);
+
 private:
     TriggerManager *triggerManager_ = nullptr;
 };

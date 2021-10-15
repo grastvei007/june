@@ -1,6 +1,6 @@
 #include "triggermanager.h"
 
-TriggerManager::TriggerManager()
+TriggerManager::TriggerManager() : QObject(nullptr)
 {
 
 }
@@ -13,6 +13,7 @@ void TriggerManager::addTrigger(QString name, Trigger *trigger)
         triggersByIndex_.push_back(trigger);
     }
     triggers_[name] = trigger;
+    emit triggerAdded();
 }
 
 int TriggerManager::numberOfTriggers() const
