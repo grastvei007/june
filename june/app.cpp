@@ -30,8 +30,8 @@ App::App(int argc, char *argv[]) : QApplication (argc, argv)
 
     parser.process(*this);
 
-//    TagSocketList::sGetInstance().setApplicationName("june");
-//    TagSocketList::sGetInstance().loadBindingList();
+    TagSocketList::sGetInstance().setApplicationName("june");
+    TagSocketList::sGetInstance().loadBindingList();
 
     TagList::sGetInstance().setClientName("june");
     TagList::sGetInstance().connectToServer(parser.value(serverIp), 5000);
