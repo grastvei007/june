@@ -17,8 +17,17 @@ ClimateGuiWidget::ClimateGuiWidget(ClimateData *aClimateData, QWidget *parent) :
     connect(ui->fanSlider, &QSlider::valueChanged, this, &ClimateGuiWidget::onFanSliderValueChanged);
     connect(ui->heatSlider, &QSlider::valueChanged, this, &ClimateGuiWidget::onHeatSliderValueChanged);
 
-    connect(mClimateData, &ClimateData::fanValueChanged, this, &ClimateGuiWidget::onFanValueChanged);
-    connect(mClimateData, &ClimateData::heatValueChanged, this, &ClimateGuiWidget::onHeatValueChanged);
+    connect(mClimateData, &ClimateData::powerOnValueChanged, [this](bool value){
+       ui->powerSlider->setValue(value);
+    });
+
+    connect(mClimateData, &ClimateData::fanValueChanged, [this](int value){
+        ui->fanSlider->setValue(value);
+    });
+
+    connect(mClimateData, &ClimateData::heatValueChanged, [this](int value){
+        ui->heatSlider->setValue(value);
+    });
 }
 
 ClimateGuiWidget::~ClimateGuiWidget()
