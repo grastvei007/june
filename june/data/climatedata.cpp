@@ -15,17 +15,6 @@ ClimateData::ClimateData(QObject *parent) : QObject(parent)
         mFanTagSocket->hookupTag("heater", "fan");
     if(!mHeatTagSocket->isHookedUp() || !mHeatTagSocket->isWaitingForTag())
         mHeatTagSocket->hookupTag("heater", "effect");
-
-    mPiFanTagSocket.reset(TagSocket::createTagSocket("june", "piFan", TagSocket::eInt));
-    mPiHeatTagSocket.reset(TagSocket::createTagSocket("june", "piHeat", TagSocket::eInt));
-
-    if(!mPiFanTagSocket->isHookedUp() || !mPiFanTagSocket->isWaitingForTag())
-        mPiFanTagSocket->hookupTag("raspberrypi", "fan");
-    if(mPiHeatTagSocket->isHookedUp() || !mPiHeatTagSocket->isWaitingForTag())
-        mPiHeatTagSocket->hookupTag("raspberrypi", "effect");
-
-    connect(mPiFanTagSocket.get(), qOverload<int>(&TagSocket::valueChanged), this, &ClimateData::onPiFanTagSocketValueChanged);
-    connect(mPiHeatTagSocket.get(), qOverload<int>(&TagSocket::valueChanged), this, &ClimateData::onPiHeatTagSocketValueChanged);
 }
 
 void ClimateData::setPower(bool aPower)
@@ -46,24 +35,4 @@ void ClimateData::setFan(int aValue)
 void ClimateData::setHeat(int aValue)
 {
     mHeatTagSocket->writeValue(aValue);
-}
-
-void ClimateData::onPiFanTagSocketValueChanged(int aValue)
-{
-    int value = aValue/10;
-    if(value != mFanValue)
-    {
-        mFanValue = value;
-        emit fanValueChanged(value);
-    }
-}
-
-void ClimateData::onPiHeatTagSocketValueChanged(int aValue)
-{
-    int value = aValue/10;
-    if(value != mHeatValue)
-    {
-        mHeatValue = value;
-        emit heatValueChanged(value);
-    }
 }

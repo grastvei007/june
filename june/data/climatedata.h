@@ -22,17 +22,13 @@ signals:
     void heatValueChanged(int);
 
 private slots:
-    void onPiFanTagSocketValueChanged(int aValue);
-    void onPiHeatTagSocketValueChanged(int aValue);
+
 
 private:
     std::unique_ptr<TagSocket> mPowerTagSocket;
     std::unique_ptr<TagSocket> mRunningTagSocket;
     std::unique_ptr<TagSocket> mFanTagSocket;
     std::unique_ptr<TagSocket> mHeatTagSocket;
-
-    std::unique_ptr<TagSocket> mPiFanTagSocket;
-    std::unique_ptr<TagSocket> mPiHeatTagSocket;
 
     int mFanValue = 0;
     int mHeatValue = 0;
