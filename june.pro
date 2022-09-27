@@ -19,10 +19,11 @@ server.file = server/juneserver.pro
 pluginloader.file = plugins/pluginload/pluginloader.pro
 
 
-#june.depends = tagsystem device influxdb
+# june.depends = tagsystem influxdb
 device.depends = tagsystem
 server.depends = tagsystem influxdb pluginloader
 hwcom.depends = device tagsystem
-piclient.depends = tagsystem
+june.depends = tagsystem
+#piclient.depends = tagsystem
 
 

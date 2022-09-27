@@ -34,7 +34,8 @@ App::App(int argc, char *argv[]) : QApplication (argc, argv)
     TagSocketList::sGetInstance().loadBindingList();
 
     TagList::sGetInstance().setClientName("june");
-    TagList::sGetInstance().connectToServer(parser.value(serverIp), 5000);
+    if(!TagList::sGetInstance().tryToAutoConnect())
+        TagList::sGetInstance().connectToServer(parser.value(serverIp), 5000);
 }
 
 App::~App()

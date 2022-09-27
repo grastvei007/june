@@ -6,12 +6,21 @@
 
 #include <tagsystem/taglistview.h>
 #include <tagsystem/tagsocketlistview.h>
+#include <tagsystem/serverconnectwidget.h>
+#include <tagsystem/taglist.h>
 
 MenuBar::MenuBar()
 {
-    mFileMenu = std::make_unique<QMenu>("File", this);
+    fileMenu_ = std::make_unique<QMenu>("File", this);
 
-    addMenu(mFileMenu.get());
+    connectToServerAction_ = std::make_unique<QAction>("Connect to server");
+    disconnectFromServerAction_ = std::make_unique<QAction>("Disconnect from server");
+
+    fileMenu_->addAction(connectToServerAction_.get());
+    fileMenu_->addAction(disconnectFromServerAction_.get());
+
+
+    addMenu(fileMenu_.get());
 
     mViewMenu = std::make_unique<QMenu>("View", this);
 
@@ -22,6 +31,9 @@ MenuBar::MenuBar()
     connect(tagSocketListAction, &QAction::triggered, this, &MenuBar::onTagSocketListClicked);
 
     addMenu(mViewMenu.get());
+
+    connect(connectToServerAction_.get(), &QAction::triggered, this, &MenuBar::onConnectToServerClicked);
+    connect(disconnectFromServerAction_.get(), &QAction::triggered, this, &MenuBar::onDisconnectFromServerClicked);
 }
 
 void MenuBar::onTagListClicked(bool)
@@ -62,4 +74,19 @@ void MenuBar::onTagSocketListClicked(bool)
     }
     mTagSocketListViewWidget->setVisible(true);
     mTagSocketListViewWidget->raise();
+}
+
+void MenuBar::onConnectToServerClicked(bool)
+{
+    ServerConnectWidget serverConnect;
+    if(serverConnect.exec())
+    {
+        TagList::sGetInstance().connectToServer(serverConnect.adress(), serverConnect.port());
+    }
+
+}
+
+void MenuBar::onDisconnectFromServerClicked(bool)
+{
+    TagList::sGetInstance().disconnectFromServer();
 }
