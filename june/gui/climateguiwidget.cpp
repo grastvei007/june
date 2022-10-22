@@ -28,6 +28,16 @@ ClimateGuiWidget::ClimateGuiWidget(ClimateData *aClimateData, QWidget *parent) :
     connect(mClimateData, &ClimateData::heatValueChanged, [this](int value){
         ui->heatSlider->setValue(value);
     });
+
+    connect(mClimateData, &ClimateData::temeratureInsideValueChange, [this](double value){
+        ui->indoor->clear();
+        ui->indoor->setText(QString::number(value) + "C");
+    });
+
+    connect(mClimateData, &ClimateData::temperaturOutdoorValueChange, [this](double value){
+        ui->outside->clear();
+        ui->outside->setText(QString::number(value) + "C");
+    });
 }
 
 ClimateGuiWidget::~ClimateGuiWidget()
