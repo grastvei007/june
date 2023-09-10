@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#include <memory>
+#include "ui_climateguiwidget.h"
+
 class ClimateData;
 
 namespace Ui {
@@ -15,7 +18,6 @@ class ClimateGuiWidget : public QWidget
 
 public:
     explicit ClimateGuiWidget(ClimateData *aClimateData, QWidget *parent = nullptr);
-    ~ClimateGuiWidget();
 
 private slots:
     void onPowerSliderValueChanged(int aValue);
@@ -27,7 +29,7 @@ private slots:
     void onHeatValueChanged(int aValue);
 
 private:
-    Ui::ClimateGuiWidget *ui;
+    std::unique_ptr<Ui::ClimateGuiWidget> ui;
     ClimateData *mClimateData;
 };
 

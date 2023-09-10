@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mListWidget->addItem("Climate");
     mListWidget->addItem("Triggers");
 
-    setCentralWidget(new ClimateGuiWidget(mClimateData));
+    centralWidgets_.try_emplace("Climate", std::make_shared<ClimateGuiWidget>(mClimateData));
+    setCentralWidget(centralWidgets_["Climate"].get()); //new ClimateGuiWidget(mClimateData));
 }
 
 MainWindow::~MainWindow()
@@ -59,11 +60,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::onListItemClicked(QListWidgetItem *aItem)
 {
-    QString name = aItem->text();
-    if(name == "Climate")
-        setCentralWidget(new ClimateGuiWidget(mClimateData));
-    else if(name == "Triggers")
-        setCentralWidget(new TriggerGuiWidget(mTriggerData));
+    auto name = aItem->text();
+    if(!centralWidgets_.count(name))
+    {
+        if(name == "Climate")
+            centralWidgets_.try_emplace("Climate", std::make_shared<ClimateGuiWidget>(mClimateData));
+        else if(name == "Triggers")
+            centralWidgets_.try_emplace("Triggers", std::make_shared<TriggerGuiWidget>(mTriggerData));
+
+    }
+    // prevent central widget from delete, TODO:fix crash in destruction
+    auto centralWidget = takeCentralWidget();
+    setCentralWidget(centralWidgets_[name].get());
 }
 
 

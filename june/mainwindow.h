@@ -41,6 +41,8 @@ private:
 
     ClimateData *mClimateData = nullptr;
     TriggerData *mTriggerData = nullptr;
+
+    std::map<QString, std::shared_ptr<QWidget>> centralWidgets_;
 };
 
 #endif // MAINWINDOW_H

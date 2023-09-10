@@ -1,5 +1,5 @@
 #include "climateguiwidget.h"
-#include "ui_climateguiwidget.h"
+
 
 #include <QSlider>
 
@@ -7,9 +7,10 @@
 
 ClimateGuiWidget::ClimateGuiWidget(ClimateData *aClimateData, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ClimateGuiWidget),
+    //    ui(new Ui::ClimateGuiWidget),
     mClimateData(aClimateData)
 {
+    ui = std::make_unique<Ui::ClimateGuiWidget>();
     ui->setupUi(this);
 
     connect(ui->powerSlider, &QSlider::valueChanged, this, &ClimateGuiWidget::onPowerSliderValueChanged);
@@ -38,11 +39,6 @@ ClimateGuiWidget::ClimateGuiWidget(ClimateData *aClimateData, QWidget *parent) :
         ui->outside->clear();
         ui->outside->setText(QString::number(value) + "C");
     });
-}
-
-ClimateGuiWidget::~ClimateGuiWidget()
-{
-    delete ui;
 }
 
 
