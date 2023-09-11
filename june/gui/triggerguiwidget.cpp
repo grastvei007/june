@@ -1,14 +1,21 @@
 #include "triggerguiwidget.h"
-#include "ui_triggerguiwidget.h"
 
-TriggerGuiWidget::TriggerGuiWidget(TriggerData *aTriggerData, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::TriggerGuiWidget)
-{
-    ui->setupUi(this);
-}
+#include <QHeaderView>
+#include <QGridLayout>
 
-TriggerGuiWidget::~TriggerGuiWidget()
+
+TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
+    QWidget(parent)
 {
-    delete ui;
+    tableModel_.reset(new TriggerDataTableModel(triggerData));
+
+    tableView_.reset(new QTableView(this));
+    tableView_->horizontalHeader()->setSectionsClickable(true);
+    tableView_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableView_->setModel(tableModel_.get());
+
+    QGridLayout *grid = new QGridLayout(this);
+    grid->addWidget(tableView_.get());
+
+    setLayout(grid);
 }

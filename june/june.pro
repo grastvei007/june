@@ -55,10 +55,12 @@ else{
 SOURCES += \
         app.cpp \
         data/climatedata.cpp \
+        data/trigger.cpp \
         data/triggerdata.cpp \
         gui/climateguiwidget.cpp \
         gui/menubar.cpp \
         gui/statusbar.cpp \
+        gui/triggerdatatablemodel.cpp \
         gui/triggerguiwidget.cpp \
         main.cpp \
         mainwindow.cpp
@@ -66,16 +68,17 @@ SOURCES += \
 HEADERS += \
         app.h \
         data/climatedata.h \
+        data/trigger.h \
         data/triggerdata.h \
         gui/climateguiwidget.h \
         gui/menubar.h \
         gui/statusbar.h \
+        gui/triggerdatatablemodel.h \
         gui/triggerguiwidget.h \
         mainwindow.h
 
 FORMS += \
         gui/climateguiwidget.ui \
-        gui/triggerguiwidget.ui \
         mainwindow.ui
 
 # Default rules for deployment.
