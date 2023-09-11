@@ -14,8 +14,14 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
     tableView_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableView_->setModel(tableModel_.get());
 
+    tableTool_ = TableTool(tableView_.get())
+                     .addRows(true)
+                     .removeRows(true)
+                     .build();
+
     QGridLayout *grid = new QGridLayout(this);
     grid->addWidget(tableView_.get());
 
     setLayout(grid);
 }
+

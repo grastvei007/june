@@ -61,7 +61,9 @@ SOURCES += \
         gui/menubar.cpp \
         gui/statusbar.cpp \
         gui/triggerdatatablemodel.cpp \
+        gui/tabletool.cpp \
         gui/triggerguiwidget.cpp \
+        gui/triggertablemodel.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -74,7 +76,9 @@ HEADERS += \
         gui/menubar.h \
         gui/statusbar.h \
         gui/triggerdatatablemodel.h \
+        gui/tabletool.h \
         gui/triggerguiwidget.h \
+        gui/triggertablemodel.h \
         mainwindow.h
 
 FORMS += \
