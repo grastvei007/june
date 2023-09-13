@@ -4,12 +4,13 @@
 #include <QObject>
 #include <QTableView>
 #include <QMenu>
+#include <QDialog>
 
 class TableTool : public QObject
 {
     Q_OBJECT
 public:
-    TableTool();
+    TableTool() : QObject() {}
     TableTool(QTableView *aTableView);
 
 

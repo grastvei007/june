@@ -24,6 +24,9 @@ public:
 
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+private slots:
+    void onTriggerAdded(int index);
+
 private:
     TriggerData *triggerData_;
 };

@@ -1,11 +1,7 @@
-#include "tabletool.h"
+#include "gui/tabletool.h"
 
-TableTool::TableTool()
-{
 
-}
-
-TableTool::TableTool(QTableView *aTableView) :
+TableTool::TableTool(QTableView *aTableView) : QObject(),
     mTableView(aTableView)
 {
 

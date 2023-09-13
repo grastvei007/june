@@ -6,7 +6,7 @@
 
 QT += core gui widgets
 
-CONFIG += c++19
+CONFIG += c++20
 if(debug){
     CONFIG += console
 }

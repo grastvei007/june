@@ -1,12 +1,13 @@
 #include "triggerdatatablemodel.h"
 #include <QColor>
-
+#include <QString>
+#include <any>
 #include "data/trigger.h"
 
 TriggerDataTableModel::TriggerDataTableModel(TriggerData *triggerData) :
     triggerData_(triggerData)
 {
-
+    connect(triggerData_, &TriggerData::triggerAdded, this, &TriggerDataTableModel::onTriggerAdded);
 }
 
 int TriggerDataTableModel::rowCount(const QModelIndex &parent) const
@@ -52,25 +53,22 @@ QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientat
 QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
-        auto triggerData = triggerData_->getTrigger(index.row()).value();
-        if (triggerData.type() == typeid(Trigger<bool>)) {
-            auto &trigger = std::any_cast<Trigger<bool> &>(triggerData);
+        auto triggerData = triggerData_->getTrigger(index.row());
+        auto trigger = trigger_cast(triggerData);
 
-            switch (index.column()) {
-            case eTriggerName:
-                return trigger.name();
-            case eTargetTagName:
-                return "";
-                 //trigger.tagName();
-            case eValue:
-                return QString();
-            case eTriggerValue:
-                return trigger.targetValue();
-            case eActive:
-                return trigger.isActive();
-            default:
-                break;
-            }
+        switch (index.column()) {
+        case eTriggerName:
+            return trigger->name();
+        case eTargetTagName:
+            return trigger->tagName();
+        case eValue:
+            return QString();
+        case eTriggerValue:
+            return trigger->targetValue();
+        case eActive:
+            return trigger->isActive();
+        default:
+            break;
         }
     } else if (role == Qt::BackgroundRole) {
         if (index.row() == 0)
@@ -84,16 +82,42 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
 
 bool TriggerDataTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    Q_UNUSED(index);
+    Q_UNUSED(value);
+    Q_UNUSED(role);
     return false;
 }
 
 Qt::ItemFlags TriggerDataTableModel::flags(const QModelIndex &index) const
 {
+    Q_UNUSED(index);
     return Qt::ItemIsEnabled;
 }
 
 bool TriggerDataTableModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    Q_UNUSED(parent);
-    return false;
+    //Trigger<bool> trigger("Test", nullptr);
+    auto trigger = new Trigger<bool>("Test", nullptr);
+    trigger->setValue(false);
+    triggerData_->addTrigger(trigger);
+
+    /*beginInsertRows(parent, row, row +count);
+
+    for(int i=row; i<row+count; ++i)
+    {
+        insertRow(i);
+    }
+
+    endInsertRows();
+    return true;
+    return false;*/
+}
+
+void TriggerDataTableModel::onTriggerAdded(int)
+{
+    beginResetModel();
+    QModelIndex top = index(0, eValue);
+    QModelIndex bottom = index(rowCount(), eActive);
+    emit dataChanged(top, bottom);
+    endResetModel();
 }
