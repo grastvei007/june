@@ -16,9 +16,6 @@
 [submodule "avr"]
 	path = avr
 	url = git@github.com:grastvei007/avr.git
-[submodule "virtualAvr"]
-	path = virtualAvr
-	url = git@github.com:grastvei007/virtualAvr.git
 [submodule "plugins"]
 	path = plugins
 	url = git@github.com:grastvei007/plugins.git
