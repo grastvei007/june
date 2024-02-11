@@ -64,7 +64,7 @@ Trigger<T>::Trigger(const QString &triggerName, Tag *targetTag)
 template<typename T>
 void Trigger<T>::triggerOnTimout(int minuts)
 {
-    timer_ = std::make_unique<QTimer>();
+    timer_ = std::make_unique<QTimer>(this);
     timer_->setInterval(minuts * 60 * 1000);
 }
 

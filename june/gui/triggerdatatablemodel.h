@@ -11,7 +11,7 @@ class TriggerDataTableModel : public QAbstractTableModel
 public:
     enum Columns { eTriggerName, eTargetTagName, eValue, eTriggerValue, eActive };
 
-    TriggerDataTableModel(){};
+    TriggerDataTableModel(){}
     TriggerDataTableModel(TriggerData *triggerData);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

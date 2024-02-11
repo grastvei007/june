@@ -18,7 +18,7 @@ public:
 
     void addTrigger(std::any trigger);
 
-    std::any getTrigger(int index);
+    std::optional<std::any> getTrigger(unsigned int index);
     int numberOfTriggers() const;
 signals:
     void triggerAdded(int index);

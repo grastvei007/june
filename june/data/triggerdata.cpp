@@ -11,11 +11,11 @@ void TriggerData::addTrigger(std::any trigger)
     emit triggerAdded(triggers_.size());
 }
 
-std::any TriggerData::getTrigger(int index)
+std::optional<std::any> TriggerData::getTrigger(unsigned int index)
 {
-   /* if (index < 0 || index > (int) triggers_.size())
+   if (index > triggers_.size())
         return std::nullopt;
-*/
+
     return triggers_.at(index);
 }
 

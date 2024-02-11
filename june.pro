@@ -8,7 +8,7 @@ SUBDIRS += \
     device \
     influxdb \
      server \
-    pluginloader \
+#    pluginloader \
     hwcom # \
 #    junesmarthome
 
@@ -16,12 +16,12 @@ SUBDIRS += \
 
 hwcom.file = hwcom/junehwcom.pro
 server.file = server/juneserver.pro
-pluginloader.file = plugins/pluginload/pluginloader.pro
+#pluginloader.file = plugins/pluginload/pluginloader.pro
 
 
 # june.depends = tagsystem influxdb
 device.depends = tagsystem
-server.depends = tagsystem influxdb pluginloader
+server.depends = tagsystem influxdb# pluginloader
 hwcom.depends = device tagsystem
 june.depends = tagsystem
 #piclient.depends = tagsystem

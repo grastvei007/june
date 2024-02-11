@@ -3,6 +3,7 @@
 #include <QString>
 #include <any>
 #include "data/trigger.h"
+#include <optional>
 
 TriggerDataTableModel::TriggerDataTableModel(TriggerData *triggerData) :
     triggerData_(triggerData)
@@ -54,7 +55,10 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
         auto triggerData = triggerData_->getTrigger(index.row());
-        auto trigger = trigger_cast(triggerData);
+        if(!triggerData.has_value())
+            return QVariant();
+
+         auto trigger = trigger_cast(triggerData.value());
 
         switch (index.column()) {
         case eTriggerName:
@@ -96,21 +100,15 @@ Qt::ItemFlags TriggerDataTableModel::flags(const QModelIndex &index) const
 
 bool TriggerDataTableModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    //Trigger<bool> trigger("Test", nullptr);
+    Q_UNUSED(row);
+    Q_UNUSED(count);
+    Q_UNUSED(parent);
+
     auto trigger = new Trigger<bool>("Test", nullptr);
     trigger->setValue(false);
     triggerData_->addTrigger(trigger);
 
-    /*beginInsertRows(parent, row, row +count);
-
-    for(int i=row; i<row+count; ++i)
-    {
-        insertRow(i);
-    }
-
-    endInsertRows();
     return true;
-    return false;*/
 }
 
 void TriggerDataTableModel::onTriggerAdded(int)
