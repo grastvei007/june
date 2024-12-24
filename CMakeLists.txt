@@ -11,7 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 COMPONENTS Core REQUIRED)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-find_package(Qt6 COMPONENTS Xml REQUIRED)
 find_package(Qt6 COMPONENTS WebSockets REQUIRED)
 
 qt_standard_project_setup()
