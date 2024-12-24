@@ -18,5 +18,8 @@ qt_standard_project_setup()
 add_subdirectory(core)
 add_subdirectory(tagsystem)
 add_subdirectory(influxdb)
+add_subdirectory(device)
+add_subdirectory(plugins)
 
 add_subdirectory(server)
+add_subdirectory(hwcom)
