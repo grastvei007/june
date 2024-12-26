@@ -23,3 +23,4 @@ add_subdirectory(plugins)
 
 add_subdirectory(server)
 add_subdirectory(hwcom)
+add_subdirectory(june)
