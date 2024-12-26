@@ -10,6 +10,8 @@ class ClimateData;
 class TriggerData;
 class QListWidget;
 class QListWidgetItem;
+class QNetworkAccessManager;
+
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QNetworkAccessManager& nam, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -34,6 +36,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QNetworkAccessManager& networkAccessManager_;
 
     std::unique_ptr<MenuBar> mMenuBar;
     std::unique_ptr<StatusBar> mStatusBar;

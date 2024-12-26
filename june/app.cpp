@@ -8,9 +8,11 @@
 #include <tagsystem/tagsocketlist.h>
 
 
-App::App(int argc, char *argv[]) : QApplication (argc, argv)
+App::App(int argc, char *argv[]) :
+    networkAccessManager_(),
+    QApplication (argc, argv)
 {
-    mMainWindow = new MainWindow;
+    mMainWindow = new MainWindow(networkAccessManager_);
 
     QSettings settings("June", "June");
     QSize size =  settings.value("mainwindow/size").toSize();
@@ -33,6 +35,8 @@ App::App(int argc, char *argv[]) : QApplication (argc, argv)
     TagSocketList::sGetInstance().setApplicationName("june");
     TagSocketList::sGetInstance().loadBindingList();
 
+    connect(&TagList::sGetInstance(), &TagList::connected, this, &App::onConnected);
+
     TagList::sGetInstance().setClientName("june");
     if(!TagList::sGetInstance().tryToAutoConnect())
         TagList::sGetInstance().connectToServer(parser.value(serverIp), 5000);
@@ -42,4 +46,13 @@ App::~App()
 {
     if(mMainWindow)
         delete mMainWindow;
+}
+
+void App::onConnected()
+{
+    const auto adress = TagList::sGetInstance().adress();
+    const int port = 5005; // api port
+    networkAccessManager_.disconnect();
+    networkAccessManager_.connectToHost(adress, port);
+    qDebug() << "connected to api " << adress <<":" << port;
 }

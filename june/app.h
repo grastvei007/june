@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include "mainwindow.h"
+#include <QNetworkAccessManager>
 
 class App : public QApplication
 {
@@ -12,10 +13,11 @@ public:
     ~App();
 signals:
 
-public slots:
-
+private slots:
+    void onConnected();
 private:
     MainWindow *mMainWindow = nullptr;
+    QNetworkAccessManager networkAccessManager_;
 };
 
 #endif // APP_H

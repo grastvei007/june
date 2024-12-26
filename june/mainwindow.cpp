@@ -16,7 +16,8 @@
 #include "data/climatedata.h"
 #include "data/triggerdata.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QNetworkAccessManager& nam, QWidget *parent) :
+    networkAccessManager_(nam),
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
