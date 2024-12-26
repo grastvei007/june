@@ -12,6 +12,7 @@
 #include "gui/statusbar.h"
 #include "gui/climateguiwidget.h"
 #include "gui/triggerguiwidget.h"
+#include "gui/plugins.h"
 
 #include "data/climatedata.h"
 #include "data/triggerdata.h"
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QNetworkAccessManager& nam, QWidget *parent) :
     ui->setupUi(this);
 
 
-    mMenuBar = std::make_unique<MenuBar>();
+    mMenuBar = std::make_unique<MenuBar>(networkAccessManager_);
     setMenuBar(mMenuBar.get());
 
     mStatusBar = std::make_unique<StatusBar>();

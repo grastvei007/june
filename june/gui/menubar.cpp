@@ -9,7 +9,10 @@
 #include <tagsystem/serverconnectwidget.h>
 #include <tagsystem/taglist.h>
 
-MenuBar::MenuBar()
+#include "gui/plugins.h"
+
+MenuBar::MenuBar(QNetworkAccessManager &nam) :
+    networkAccessManager_(nam)
 {
     fileMenu_ = std::make_unique<QMenu>("File", this);
 
@@ -31,6 +34,13 @@ MenuBar::MenuBar()
     connect(tagSocketListAction, &QAction::triggered, this, &MenuBar::onTagSocketListClicked);
 
     addMenu(mViewMenu.get());
+
+    serverMenu_ = std::make_unique<QMenu>("Server", this);
+
+    auto *pluginAction = serverMenu_->addAction("Plugin");
+    connect(pluginAction, &QAction::triggered, this, &MenuBar::onServerPluginClicked);
+
+    addMenu(serverMenu_.get());
 
     connect(connectToServerAction_.get(), &QAction::triggered, this, &MenuBar::onConnectToServerClicked);
     connect(disconnectFromServerAction_.get(), &QAction::triggered, this, &MenuBar::onDisconnectFromServerClicked);
@@ -89,4 +99,11 @@ void MenuBar::onConnectToServerClicked(bool)
 void MenuBar::onDisconnectFromServerClicked(bool)
 {
     TagList::sGetInstance().disconnectFromServer();
+}
+
+void MenuBar::onServerPluginClicked(bool)
+{
+    if(!serverPluginWidget_)
+        serverPluginWidget_ = std::make_unique<Plugins>(networkAccessManager_);
+    serverPluginWidget_->show();
 }
