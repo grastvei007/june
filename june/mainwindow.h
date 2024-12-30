@@ -11,6 +11,7 @@ class TriggerData;
 class QListWidget;
 class QListWidgetItem;
 class QNetworkAccessManager;
+class QNetworkRequestFactory;
 
 
 namespace Ui {
@@ -25,7 +26,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QNetworkAccessManager& nam, QWidget *parent = nullptr);
+    explicit MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory& requestFactory, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -37,6 +38,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager& networkAccessManager_;
+    QNetworkRequestFactory& networkRequestFactory_;
 
     std::unique_ptr<MenuBar> mMenuBar;
     std::unique_ptr<StatusBar> mStatusBar;

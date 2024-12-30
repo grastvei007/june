@@ -17,15 +17,16 @@
 #include "data/climatedata.h"
 #include "data/triggerdata.h"
 
-MainWindow::MainWindow(QNetworkAccessManager& nam, QWidget *parent) :
+MainWindow::MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory &requestFactory, QWidget *parent) :
     networkAccessManager_(nam),
+    networkRequestFactory_(requestFactory),
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
 
-    mMenuBar = std::make_unique<MenuBar>(networkAccessManager_);
+    mMenuBar = std::make_unique<MenuBar>(networkAccessManager_, networkRequestFactory_);
     setMenuBar(mMenuBar.get());
 
     mStatusBar = std::make_unique<StatusBar>();
