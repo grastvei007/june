@@ -23,11 +23,15 @@ qt_add_executable(june
     app.cpp
     mainwindow.h
     mainwindow.cpp
+    mainwindow.ui
 
     gui/climateguiwidget.h
     gui/climateguiwidget.cpp
     gui/menubar.h
     gui/menubar.cpp
+    gui/plugins.h
+    gui/plugins.cpp
+    gui/plugins.ui
     gui/statusbar.h
     gui/statusbar.cpp
     gui/tabletool.h

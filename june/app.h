@@ -3,6 +3,8 @@
 
 #include <QApplication>
 #include "mainwindow.h"
+#include <QNetworkAccessManager>
+#include <QNetworkRequestFactory>
 
 class App : public QApplication
 {
@@ -12,10 +14,13 @@ public:
     ~App();
 signals:
 
-public slots:
-
+private slots:
+    void onConnected();
+    void onFinnished(QNetworkReply *reply);
 private:
     MainWindow *mMainWindow = nullptr;
+    QNetworkAccessManager networkAccessManager_;
+    QNetworkRequestFactory networkRequestFactory_{{"http://localhost:5005/api"}};
 };
 
 #endif // APP_H
