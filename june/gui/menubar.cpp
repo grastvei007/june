@@ -11,8 +11,9 @@
 
 #include "gui/plugins.h"
 
-MenuBar::MenuBar(QNetworkAccessManager &nam) :
-    networkAccessManager_(nam)
+MenuBar::MenuBar(QNetworkAccessManager &nam, QNetworkRequestFactory &requestFactory) :
+    networkAccessManager_(nam),
+    networkRequestFactory_(requestFactory)
 {
     fileMenu_ = std::make_unique<QMenu>("File", this);
 
@@ -104,6 +105,6 @@ void MenuBar::onDisconnectFromServerClicked(bool)
 void MenuBar::onServerPluginClicked(bool)
 {
     if(!serverPluginWidget_)
-        serverPluginWidget_ = std::make_unique<Plugins>(networkAccessManager_);
+        serverPluginWidget_ = std::make_unique<Plugins>(networkAccessManager_, networkRequestFactory_);
     serverPluginWidget_->show();
 }

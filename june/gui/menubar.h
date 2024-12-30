@@ -9,11 +9,12 @@ class QMenu;
 class QWidgets;
 class QNetworkAccessManager;
 class Plugins;
+class QNetworkRequestFactory;
 
 class MenuBar : public QMenuBar
 {
 public:
-   MenuBar(QNetworkAccessManager &nam);
+   MenuBar(QNetworkAccessManager &nam, QNetworkRequestFactory& requestFactory);
 
 private slots:
    void onTagListClicked(bool);
@@ -25,6 +26,8 @@ private slots:
 
 private:
    QNetworkAccessManager& networkAccessManager_;
+   QNetworkRequestFactory& networkRequestFactory_;
+
    std::unique_ptr<QMenu> fileMenu_;
    std::unique_ptr<QMenu> mViewMenu;
    std::unique_ptr<QMenu> serverMenu_;
