@@ -2,7 +2,6 @@
 #include <QColor>
 #include <QString>
 #include <any>
-#include "data/trigger.h"
 #include <optional>
 
 TriggerDataTableModel::TriggerDataTableModel(TriggerData *triggerData) :
@@ -58,7 +57,7 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
         if(!triggerData.has_value())
             return QVariant();
 
-         auto trigger = trigger_cast(triggerData.value());
+         /*auto trigger = trigger_cast(triggerData.value());
 
         switch (index.column()) {
         case eTriggerName:
@@ -73,7 +72,7 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
             return trigger->isActive();
         default:
             break;
-        }
+        }*/
     } else if (role == Qt::BackgroundRole) {
         if (index.row() == 0)
             return false;
@@ -104,9 +103,9 @@ bool TriggerDataTableModel::insertRows(int row, int count, const QModelIndex &pa
     Q_UNUSED(count);
     Q_UNUSED(parent);
 
-    auto trigger = new Trigger<bool>("Test", nullptr);
+    /*auto trigger = new Trigger<bool>("Test", nullptr);
     trigger->setValue(false);
-    triggerData_->addTrigger(trigger);
+    triggerData_->addTrigger(trigger);*/
 
     return true;
 }

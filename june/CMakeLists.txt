@@ -45,8 +45,8 @@ qt_add_executable(june
 
     data/climatedata.h
     data/climatedata.cpp
-    data/trigger.h
-    data/trigger.cpp
+
+
     data/triggerdata.h
     data/triggerdata.cpp
 )

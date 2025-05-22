@@ -7,8 +7,6 @@
 
 #include <QObject>
 
-#include "trigger.h"
-
 
 class TriggerData : public QObject
 {
@@ -28,12 +26,5 @@ private:
 
 };
 
-inline auto *trigger_cast(std::any &trigger)
-{
-    if (Trigger<bool> *t = std::any_cast<Trigger<bool> *>(trigger))
-        return t;
-
-    Q_UNREACHABLE();
-}
 
 #endif // TRIGGERDATA_H
