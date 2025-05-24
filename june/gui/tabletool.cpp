@@ -36,6 +36,7 @@ TableTool &TableTool::operator=(const TableTool &tableTool)
     tableView_ = tableTool.tableView_;
     addRows_ = tableTool.addRows_;
     removeRows_ = tableTool.removeRows_;
+    customItems_ = tableTool.customItems_;
 
     if(addRows_ || removeRows_ || !customItems_.empty())
     {

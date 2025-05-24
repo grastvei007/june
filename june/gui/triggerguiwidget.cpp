@@ -17,7 +17,10 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
     tableTool_ = TableTool(tableView_.get())
                      .addRows(true)
                      .removeRows(true)
+                     .addCustomItem(customItemAddTrigger_)
                      .build();
+
+    connect(&tableTool_, &TableTool::customItemClicked, this, &TriggerGuiWidget::onCustomItemAddTriggerClicked);
 
     QGridLayout *grid = new QGridLayout(this);
     grid->addWidget(tableView_.get());
@@ -25,3 +28,9 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
     setLayout(grid);
 }
 
+void TriggerGuiWidget::onCustomItemAddTriggerClicked(QString name)
+{
+    if(name != customItemAddTrigger_)
+        return;
+
+}
