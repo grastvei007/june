@@ -19,6 +19,12 @@ TableTool &TableTool::removeRows(bool aValue)
     return *this;
 }
 
+TableTool &TableTool::addCustomItem(const QString &name)
+{
+    customItems_.push_back(name);
+    return *this;
+}
+
 TableTool& TableTool::build()
 {
 
@@ -31,22 +37,28 @@ TableTool &TableTool::operator=(const TableTool &aTableTool)
     mAddRows = aTableTool.mAddRows;
     mRemoveRows = aTableTool.mRemoveRows;
 
-    if(mAddRows)
+    if(mAddRows || mRemoveRows || !customItems_.empty())
     {
         if(!mContextMenu)
             mContextMenu = new QMenu();
+    }
 
+    if(mAddRows)
+    {
         QAction *add = mContextMenu->addAction("Add Row");
         connect(add, &QAction::triggered, this, &TableTool::onAddRowClicked);
     }
 
     if(mRemoveRows)
     {
-        if(!mContextMenu)
-            mContextMenu = new QMenu();
-
         QAction *remove = mContextMenu->addAction("Remove Row");
         connect(remove, &QAction::triggered, this, &TableTool::onRemoveRowClicked);
+    }
+
+    for(const auto& item : customItems_)
+    {
+        QAction *customItem = mContextMenu->addAction(item);
+        connect(customItem, &QAction::triggered, this, &TableTool::onCustomItemClicked);
     }
 
     if(mContextMenu)
@@ -76,4 +88,12 @@ void TableTool::onAddRowClicked(bool aTriggered)
 void TableTool::onRemoveRowClicked(bool aTriggered)
 {
     Q_UNUSED(aTriggered);
+}
+
+void TableTool::onCustomItemClicked(bool triggered)
+{
+    Q_UNUSED(triggered);
+    QAction *caller = qobject_cast<QAction*>(sender());
+    auto text =caller->text();
+    emit customItemClicked(text);
 }
