@@ -1,21 +1,21 @@
 #include "gui/tabletool.h"
 
 
-TableTool::TableTool(QTableView *aTableView) : QObject(),
-    mTableView(aTableView)
+TableTool::TableTool(QTableView *tableView) : QObject(),
+    tableView_(tableView)
 {
 
 }
 
-TableTool &TableTool::addRows(bool aValue)
+TableTool &TableTool::addRows(bool value)
 {
-    mAddRows = aValue;
+    addRows_ = value;
     return *this;
 }
 
-TableTool &TableTool::removeRows(bool aValue)
+TableTool &TableTool::removeRows(bool value)
 {
-    mRemoveRows = aValue;
+    removeRows_ = value;
     return *this;
 }
 
@@ -31,63 +31,63 @@ TableTool& TableTool::build()
     return *this;
 }
 
-TableTool &TableTool::operator=(const TableTool &aTableTool)
+TableTool &TableTool::operator=(const TableTool &tableTool)
 {
-    mTableView = aTableTool.mTableView;
-    mAddRows = aTableTool.mAddRows;
-    mRemoveRows = aTableTool.mRemoveRows;
+    tableView_ = tableTool.tableView_;
+    addRows_ = tableTool.addRows_;
+    removeRows_ = tableTool.removeRows_;
 
-    if(mAddRows || mRemoveRows || !customItems_.empty())
+    if(addRows_ || removeRows_ || !customItems_.empty())
     {
-        if(!mContextMenu)
-            mContextMenu = new QMenu();
+        if(!contextMenu_)
+            contextMenu_ = new QMenu();
     }
 
-    if(mAddRows)
+    if(addRows_)
     {
-        QAction *add = mContextMenu->addAction("Add Row");
+        QAction *add = contextMenu_->addAction("Add Row");
         connect(add, &QAction::triggered, this, &TableTool::onAddRowClicked);
     }
 
-    if(mRemoveRows)
+    if(removeRows_)
     {
-        QAction *remove = mContextMenu->addAction("Remove Row");
+        QAction *remove = contextMenu_->addAction("Remove Row");
         connect(remove, &QAction::triggered, this, &TableTool::onRemoveRowClicked);
     }
 
     for(const auto& item : customItems_)
     {
-        QAction *customItem = mContextMenu->addAction(item);
+        QAction *customItem = contextMenu_->addAction(item);
         connect(customItem, &QAction::triggered, this, &TableTool::onCustomItemClicked);
     }
 
-    if(mContextMenu)
+    if(contextMenu_)
     {
-        mTableView->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(mTableView, &QTableView::customContextMenuRequested, this, &TableTool::onContextMenu);
+        tableView_->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(tableView_, &QTableView::customContextMenuRequested, this, &TableTool::onContextMenu);
     }
 
     return *this;
 }
 
-void TableTool::onContextMenu(const QPoint &aPoint)
+void TableTool::onContextMenu(const QPoint &point)
 {
-    mContextMenu->popup(mTableView->viewport()->mapToGlobal(aPoint));
+    contextMenu_->popup(tableView_->viewport()->mapToGlobal(point));
 }
 
-void TableTool::onAddRowClicked(bool aTriggered)
+void TableTool::onAddRowClicked(bool triggered)
 {
-    Q_UNUSED(aTriggered);
-    if(!mTableView->model())
+    Q_UNUSED(triggered);
+    if(!tableView_->model())
         return;
 
-    int rows = mTableView->model()->rowCount();
-    mTableView->model()->insertRow(rows+1);
+    int rows = tableView_->model()->rowCount();
+    tableView_->model()->insertRow(rows+1);
 }
 
-void TableTool::onRemoveRowClicked(bool aTriggered)
+void TableTool::onRemoveRowClicked(bool triggered)
 {
-    Q_UNUSED(aTriggered);
+    Q_UNUSED(triggered);
 }
 
 void TableTool::onCustomItemClicked(bool triggered)
