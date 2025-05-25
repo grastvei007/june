@@ -54,8 +54,8 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
         auto triggerData = triggerData_->getTrigger(index.row());
-        if(!triggerData.has_value())
-            return QVariant();
+        //if(!triggerData.has_value())
+        //    return QVariant();
 
          /*auto trigger = trigger_cast(triggerData.value());
 

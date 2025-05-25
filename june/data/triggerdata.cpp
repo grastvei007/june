@@ -1,20 +1,23 @@
 #include "triggerdata.h"
 
-TriggerData::TriggerData(QObject *parent) : QObject(parent)
+TriggerData::TriggerData(QNetworkAccessManager &nam,
+                         QNetworkRequestFactory &networkRequestFactory,
+                         QObject *parent)
+    : QObject(parent)
+    , networkRequestFactory_(networkRequestFactory)
+    , networkAccessManager_(nam)
 {
 
 }
 
-void TriggerData::addTrigger(std::any trigger)
+void TriggerData::addTrigger(const Trigger &trigger)
 {
     triggers_.push_back(trigger);
     emit triggerAdded(triggers_.size());
 }
 
-std::optional<std::any> TriggerData::getTrigger(unsigned int index)
+const Trigger& TriggerData::getTrigger(unsigned int index) const
 {
-   if (index > triggers_.size())
-        return std::nullopt;
 
     return triggers_.at(index);
 }

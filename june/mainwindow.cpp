@@ -29,7 +29,7 @@ MainWindow::MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory &reque
     mMenuBar = std::make_unique<MenuBar>(networkAccessManager_, networkRequestFactory_);
     setMenuBar(mMenuBar.get());
 
-    mStatusBar = std::make_unique<StatusBar>();
+    mStatusBar = std::make_unique<StatusBar>(this);
     setStatusBar(mStatusBar.get());
 
     mListWidget = std::make_unique<QListWidget>(this);
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory &reque
     addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
     mClimateData = new ClimateData();
-    mTriggerData = new TriggerData();
+    triggerData_ = std::make_unique<TriggerData>(networkAccessManager_, networkRequestFactory_);
 
     mListWidget->addItem("Climate");
     mListWidget->addItem("Triggers");
@@ -69,7 +69,7 @@ void MainWindow::onListItemClicked(QListWidgetItem *aItem)
         if(name == "Climate")
             centralWidgets_.try_emplace("Climate", std::make_shared<ClimateGuiWidget>(mClimateData));
         else if(name == "Triggers")
-            centralWidgets_.try_emplace("Triggers", std::make_shared<TriggerGuiWidget>(mTriggerData));
+            centralWidgets_.try_emplace("Triggers", std::make_shared<TriggerGuiWidget>(triggerData_.get()));
 
     }
     // prevent central widget from delete, TODO:fix crash in destruction

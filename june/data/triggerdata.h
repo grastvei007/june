@@ -2,28 +2,32 @@
 #define TRIGGERDATA_H
 
 #include <vector>
-#include <any>
 #include <optional>
 
 #include <QObject>
+#include <QNetworkRequestFactory>
+#include <QNetworkAccessManager>
+
+#include "trigger.h"
 
 
 class TriggerData : public QObject
 {
     Q_OBJECT
 public:
-    explicit TriggerData(QObject *parent = nullptr);
+    explicit TriggerData(QNetworkAccessManager &nam, QNetworkRequestFactory &networkRequestFactory, QObject *parent = nullptr);
 
-    void addTrigger(std::any trigger);
+    void addTrigger(const Trigger &trigger);
 
-    std::optional<std::any> getTrigger(unsigned int index);
+    const Trigger& getTrigger(unsigned int index) const;
     int numberOfTriggers() const;
 signals:
     void triggerAdded(int index);
 
 private:
-    std::vector<std::any> triggers_;
-
+    std::vector<Trigger> triggers_;
+    QNetworkRequestFactory& networkRequestFactory_;
+    QNetworkAccessManager& networkAccessManager_;
 };
 
 

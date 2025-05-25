@@ -45,7 +45,7 @@ private:
     std::unique_ptr<QListWidget> mListWidget;
 
     ClimateData *mClimateData = nullptr;
-    TriggerData *mTriggerData = nullptr;
+    std::unique_ptr<TriggerData> triggerData_;
 
     std::map<QString, std::shared_ptr<QWidget>> centralWidgets_;
 };
