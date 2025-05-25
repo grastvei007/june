@@ -13,15 +13,14 @@
 #include "gui/climateguiwidget.h"
 #include "gui/triggerguiwidget.h"
 #include "gui/plugins.h"
+#include "gui/centralwidgetfactory.h"
 
-#include "data/climatedata.h"
-#include "data/triggerdata.h"
-
-MainWindow::MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory &requestFactory, QWidget *parent) :
-    networkAccessManager_(nam),
-    networkRequestFactory_(requestFactory),
+MainWindow::MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAccessManager &nam, QNetworkRequestFactory &nrf, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    networkAccessManager_(nam),
+    networkRequestFactory_(nrf),
+    centralWidgetFactory_(centralWidgetFactory)
 {
     ui->setupUi(this);
 
@@ -39,14 +38,10 @@ MainWindow::MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory &reque
     listDockWidget->setWidget(mListWidget.get());
     addDockWidget(Qt::LeftDockWidgetArea, listDockWidget);
 
-    mClimateData = new ClimateData();
-    triggerData_ = std::make_unique<TriggerData>(networkAccessManager_, networkRequestFactory_);
-
     mListWidget->addItem("Climate");
     mListWidget->addItem("Triggers");
 
-    centralWidgets_.try_emplace("Climate", std::make_shared<ClimateGuiWidget>(mClimateData));
-    setCentralWidget(centralWidgets_["Climate"].get()); //new ClimateGuiWidget(mClimateData));
+    setCentralWidgetByName("Triggers");
 }
 
 MainWindow::~MainWindow()
@@ -64,17 +59,16 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::onListItemClicked(QListWidgetItem *aItem)
 {
     auto name = aItem->text();
-    if(!centralWidgets_.count(name))
-    {
-        if(name == "Climate")
-            centralWidgets_.try_emplace("Climate", std::make_shared<ClimateGuiWidget>(mClimateData));
-        else if(name == "Triggers")
-            centralWidgets_.try_emplace("Triggers", std::make_shared<TriggerGuiWidget>(triggerData_.get()));
-
-    }
-    // prevent central widget from delete, TODO:fix crash in destruction
-    auto centralWidget = takeCentralWidget();
-    setCentralWidget(centralWidgets_[name].get());
+    setCentralWidgetByName(name);
 }
 
-
+void MainWindow::setCentralWidgetByName(const QString &name)
+{
+    auto *widget = centralWidgetFactory_.createWidget(name);
+    if(!widget)
+    {
+        qDebug() << "Widget does not exist";
+        return;
+    }
+    setCentralWidget(widget);
+}
