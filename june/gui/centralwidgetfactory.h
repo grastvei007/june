@@ -2,7 +2,9 @@
 #define CENTRALWIDGETFACTORY_H
 
 #include <QWidget>
+#include <QDebug>
 #include <map>
+#include <type_traits>
 
 #include "../data/triggerdata.h"
 
@@ -40,9 +42,16 @@ protected:
 template<typename Type, typename DataType>
 void CentralWiddgetFactory::add(const QString &key, QObject *dataClass)
 {
-    Creator creator = &createType<Type, DataType>;
-    constructors_.emplace(key, creator);
-    dataClasses_.emplace(key, dataClass);
+    if(typeid(DataType) == typeid(*dataClass))
+    {
+        Creator creator = &createType<Type, DataType>;
+        constructors_.emplace(key, creator);
+        dataClasses_.emplace(key, dataClass);
+    }
+    else
+    {
+        qWarning() << "CentralWiddgetFactory: Invalid data class for widget.";
+    }
 }
 
 #endif // CENTRALWIDGETFACTORY_H
