@@ -29,7 +29,7 @@ public:
 private slots:
     void onCustomItemAddTriggerClicked(QString name);
 private:
-    TriggerData *triggerData = nullptr;
+    TriggerData *triggerData_ = nullptr;
 
     std::unique_ptr<QTableView> tableView_;
     std::unique_ptr<TriggerDataTableModel> tableModel_;

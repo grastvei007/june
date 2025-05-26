@@ -51,6 +51,7 @@ qt_add_executable(june
     data/triggerdata.cpp
     data/trigger.h data/trigger.cpp
     gui/centralwidgetfactory.h
+    gui/addtrigger.h gui/addtrigger.cpp gui/addtrigger.ui
 )
 
 
