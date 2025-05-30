@@ -40,8 +40,6 @@ qt_add_executable(june
     gui/triggerdatatablemodel.cpp
     gui/triggerguiwidget.h
     gui/triggerguiwidget.cpp
-    gui/triggertablemodel.h
-    gui/triggertablemodel.cpp
 
     data/climatedata.h
     data/climatedata.cpp

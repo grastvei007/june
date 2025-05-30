@@ -1,4 +1,5 @@
 #include "triggerdatatablemodel.h"
+#include "data/trigger.h"
 #include <QColor>
 #include <QString>
 #include <any>
@@ -19,7 +20,7 @@ int TriggerDataTableModel::rowCount(const QModelIndex &parent) const
 int TriggerDataTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 5;
+    return 4;
 }
 
 QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -31,8 +32,6 @@ QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientat
                 return "Trigger name";
             case eTargetTagName:
                 return "Target Tag";
-            case eValue:
-                return "Value";
             case eTriggerValue:
                 return "Trigger value";
             case eActive:
@@ -46,33 +45,37 @@ QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientat
             return QString::number(section);
     }
 
-    return QVariant();
+    return {};
 }
 
 
 QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole) {
-        auto triggerData = triggerData_->getTrigger(index.row());
-        //if(!triggerData.has_value())
-        //    return QVariant();
-
-         /*auto trigger = trigger_cast(triggerData.value());
+        auto trigger = triggerData_->getTrigger(index.row());
 
         switch (index.column()) {
         case eTriggerName:
-            return trigger->name();
+            return trigger.triggerName();
         case eTargetTagName:
-            return trigger->tagName();
-        case eValue:
-            return QString();
+            return trigger.watchTag();
         case eTriggerValue:
-            return trigger->targetValue();
+        {
+            if(trigger.triggerType() == TriggerType::TriggerEveryTimeAbove || trigger.triggerType() == TriggerType::TriggerEveryTimeBelow)
+            {
+                return trigger.targetValued();
+            }
+            else if(trigger.triggerType() == TriggerType::TriggerOnTime)
+            {
+                return trigger.targetValuei();
+            }
+            return "";
+        }
         case eActive:
-            return trigger->isActive();
+            return true;
         default:
             break;
-        }*/
+        }
     } else if (role == Qt::BackgroundRole) {
         if (index.row() == 0)
             return false;
@@ -80,7 +83,7 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
             return QColor(Qt::gray);
     }
 
-    return QVariant();
+    return {};
 }
 
 bool TriggerDataTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -113,7 +116,7 @@ bool TriggerDataTableModel::insertRows(int row, int count, const QModelIndex &pa
 void TriggerDataTableModel::onTriggerAdded(int)
 {
     beginResetModel();
-    QModelIndex top = index(0, eValue);
+    QModelIndex top = index(0, eTriggerName);
     QModelIndex bottom = index(rowCount(), eActive);
     emit dataChanged(top, bottom);
     endResetModel();

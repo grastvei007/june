@@ -9,7 +9,7 @@ class TriggerDataTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    enum Columns { eTriggerName, eTargetTagName, eValue, eTriggerValue, eActive };
+    enum Columns { eTriggerName, eTargetTagName, eTriggerValue, eActive };
 
     TriggerDataTableModel(){}
     TriggerDataTableModel(TriggerData *triggerData);
