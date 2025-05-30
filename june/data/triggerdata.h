@@ -17,6 +17,8 @@ enum class TriggerType
     TriggerOnTime
 };
 
+class Trigger;
+
 class TriggerData : public QObject
 {
     Q_OBJECT
@@ -36,6 +38,8 @@ signals:
     void triggerAdded(int index);
 
 private:
+    void sendTriggerToServer(const Trigger &trigger) const;
+
     std::vector<Trigger> triggers_;
     QNetworkRequestFactory& networkRequestFactory_;
     QNetworkAccessManager& networkAccessManager_;

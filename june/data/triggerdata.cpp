@@ -22,7 +22,9 @@ void TriggerData::createTrigger(TriggerType type,
                                 const QString &watchTag,
                                 double targetValue)
 {
-
+    Trigger trigger(type, triggerName, watchTag, targetValue);
+    addTrigger(trigger);
+    sendTriggerToServer(trigger);
 }
 
 void TriggerData::createTrigger(TriggerType type,
@@ -31,7 +33,9 @@ void TriggerData::createTrigger(TriggerType type,
                                 int targetValue,
                                 int duration)
 {
-
+    Trigger trigger(type, triggerName, watchTag, targetValue, duration);
+    addTrigger(trigger);
+    sendTriggerToServer(trigger);
 }
 
 const Trigger& TriggerData::getTrigger(unsigned int index) const
@@ -77,4 +81,9 @@ std::optional<TriggerType> TriggerData::fromString(const QString &type)
         return TriggerType::TriggerOnTime;
 
     return std::nullopt;
+}
+
+void TriggerData::sendTriggerToServer(const Trigger &trigger) const
+{
+
 }
