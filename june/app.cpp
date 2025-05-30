@@ -70,7 +70,9 @@ void App::onConnected()
     const auto adress = TagList::sGetInstance().adress();
     const int port = 5005; // api port
 
-    networkRequestFactory_.setBaseUrl(QUrl(QString("http://%1:%2/api").arg(adress, port)));
+    qDebug() << "Api adress changes: " << QString("http://%1:%2/api").arg(adress, QString::number(port));
+
+    networkRequestFactory_.setBaseUrl(QUrl(QString("http://%1:%2/api").arg(adress, QString::number(port))));
 }
 
 void App::onFinnished(QNetworkReply *reply)
