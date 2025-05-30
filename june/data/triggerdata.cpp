@@ -85,5 +85,6 @@ std::optional<TriggerType> TriggerData::fromString(const QString &type)
 
 void TriggerData::sendTriggerToServer(const Trigger &trigger) const
 {
-
+    QJsonDocument document(trigger.toJson());
+    networkAccessManager_.post(networkRequestFactory_.createRequest("/trigger/create"), document.toJson());
 }
