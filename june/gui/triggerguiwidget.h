@@ -26,13 +26,16 @@ class TriggerGuiWidget : public QWidget
 public:
     explicit TriggerGuiWidget(TriggerData *triggerData, QWidget *parent = nullptr);
 
+private slots:
+    void onCustomItemAddTriggerClicked(QString name);
 private:
-    TriggerData *triggerData = nullptr;
+    TriggerData *triggerData_ = nullptr;
 
     std::unique_ptr<QTableView> tableView_;
     std::unique_ptr<TriggerDataTableModel> tableModel_;
 
     TableTool tableTool_;
+    QString customItemAddTrigger_ = {"Add Trigger"};
 };
 
 #endif // TRIGGERGUIWIDGET_H

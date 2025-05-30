@@ -1,21 +1,27 @@
 #include "gui/tabletool.h"
 
 
-TableTool::TableTool(QTableView *aTableView) : QObject(),
-    mTableView(aTableView)
+TableTool::TableTool(QTableView *tableView) : QObject(),
+    tableView_(tableView)
 {
 
 }
 
-TableTool &TableTool::addRows(bool aValue)
+TableTool &TableTool::addRows(bool value)
 {
-    mAddRows = aValue;
+    addRows_ = value;
     return *this;
 }
 
-TableTool &TableTool::removeRows(bool aValue)
+TableTool &TableTool::removeRows(bool value)
 {
-    mRemoveRows = aValue;
+    removeRows_ = value;
+    return *this;
+}
+
+TableTool &TableTool::addCustomItem(const QString &name)
+{
+    customItems_.push_back(name);
     return *this;
 }
 
@@ -25,55 +31,70 @@ TableTool& TableTool::build()
     return *this;
 }
 
-TableTool &TableTool::operator=(const TableTool &aTableTool)
+TableTool &TableTool::operator=(const TableTool &tableTool)
 {
-    mTableView = aTableTool.mTableView;
-    mAddRows = aTableTool.mAddRows;
-    mRemoveRows = aTableTool.mRemoveRows;
+    tableView_ = tableTool.tableView_;
+    addRows_ = tableTool.addRows_;
+    removeRows_ = tableTool.removeRows_;
+    customItems_ = tableTool.customItems_;
 
-    if(mAddRows)
+    if(addRows_ || removeRows_ || !customItems_.empty())
     {
-        if(!mContextMenu)
-            mContextMenu = new QMenu();
+        if(!contextMenu_)
+            contextMenu_ = new QMenu();
+    }
 
-        QAction *add = mContextMenu->addAction("Add Row");
+    if(addRows_)
+    {
+        QAction *add = contextMenu_->addAction("Add Row");
         connect(add, &QAction::triggered, this, &TableTool::onAddRowClicked);
     }
 
-    if(mRemoveRows)
+    if(removeRows_)
     {
-        if(!mContextMenu)
-            mContextMenu = new QMenu();
-
-        QAction *remove = mContextMenu->addAction("Remove Row");
+        QAction *remove = contextMenu_->addAction("Remove Row");
         connect(remove, &QAction::triggered, this, &TableTool::onRemoveRowClicked);
     }
 
-    if(mContextMenu)
+    for(const auto& item : customItems_)
     {
-        mTableView->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(mTableView, &QTableView::customContextMenuRequested, this, &TableTool::onContextMenu);
+        QAction *customItem = contextMenu_->addAction(item);
+        connect(customItem, &QAction::triggered, this, &TableTool::onCustomItemClicked);
+    }
+
+    if(contextMenu_)
+    {
+        tableView_->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(tableView_, &QTableView::customContextMenuRequested, this, &TableTool::onContextMenu);
     }
 
     return *this;
 }
 
-void TableTool::onContextMenu(const QPoint &aPoint)
+void TableTool::onContextMenu(const QPoint &point)
 {
-    mContextMenu->popup(mTableView->viewport()->mapToGlobal(aPoint));
+    contextMenu_->popup(tableView_->viewport()->mapToGlobal(point));
 }
 
-void TableTool::onAddRowClicked(bool aTriggered)
+void TableTool::onAddRowClicked(bool triggered)
 {
-    Q_UNUSED(aTriggered);
-    if(!mTableView->model())
+    Q_UNUSED(triggered);
+    if(!tableView_->model())
         return;
 
-    int rows = mTableView->model()->rowCount();
-    mTableView->model()->insertRow(rows+1);
+    int rows = tableView_->model()->rowCount();
+    tableView_->model()->insertRow(rows+1);
 }
 
-void TableTool::onRemoveRowClicked(bool aTriggered)
+void TableTool::onRemoveRowClicked(bool triggered)
 {
-    Q_UNUSED(aTriggered);
+    Q_UNUSED(triggered);
+}
+
+void TableTool::onCustomItemClicked(bool triggered)
+{
+    Q_UNUSED(triggered);
+    QAction *caller = qobject_cast<QAction*>(sender());
+    auto text =caller->text();
+    emit customItemClicked(text);
 }

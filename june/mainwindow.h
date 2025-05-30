@@ -6,12 +6,12 @@
 
 #include <QMainWindow>
 
-class ClimateData;
-class TriggerData;
 class QListWidget;
 class QListWidgetItem;
 class QNetworkAccessManager;
 class QNetworkRequestFactory;
+
+class CentralWiddgetFactory;
 
 
 namespace Ui {
@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QNetworkAccessManager& nam, QNetworkRequestFactory& requestFactory, QWidget *parent = nullptr);
+    explicit MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAccessManager &nam, QNetworkRequestFactory &nrf, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -36,18 +36,18 @@ private slots:
     void onListItemClicked(QListWidgetItem *aItem);
 
 private:
+    void setCentralWidgetByName(const QString &name);
+
+private:
     Ui::MainWindow *ui;
-    QNetworkAccessManager& networkAccessManager_;
-    QNetworkRequestFactory& networkRequestFactory_;
 
     std::unique_ptr<MenuBar> mMenuBar;
     std::unique_ptr<StatusBar> mStatusBar;
     std::unique_ptr<QListWidget> mListWidget;
 
-    ClimateData *mClimateData = nullptr;
-    TriggerData *mTriggerData = nullptr;
-
-    std::map<QString, std::shared_ptr<QWidget>> centralWidgets_;
+    QNetworkAccessManager &networkAccessManager_;
+    QNetworkRequestFactory &networkRequestFactory_;
+    CentralWiddgetFactory &centralWidgetFactory_;
 };
 
 #endif // MAINWINDOW_H

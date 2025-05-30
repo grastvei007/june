@@ -1,115 +1,33 @@
 #ifndef TRIGGER_H
 #define TRIGGER_H
 
-#include <memory>
-
 #include <QString>
-#include <QObject>
-#include <QTimer>
+#include <QJsonObject>
 
-#include <tagsystem/tag.h>
-#include <tagsystem/tagsocket.h>
+enum class TriggerType;
 
-template<typename T>
-class Trigger : public QObject
+class Trigger
 {
-//    Q_OBJECT
 public:
-    Trigger(const QString &triggerName, Tag *targetTag);
+    Trigger(TriggerType type, const QString &triggerName, const QString &watchTag, double targetValue);
+    Trigger(TriggerType type, const QString &triggerName, const QString &watchTag, int targetValue, int duration);
 
-    void setValue(T t){ setValue_ = t;}
-    void triggerOnTimout(int minuts);
+    QJsonObject toJson() const;
 
-    void activate();
-    void deactivate();
-    void setActive(bool isActive);
-    T targetValue() const{ return setValue_;}
-
-    bool isActive() const { return isAvtive_; }
-    QString name() const { return triggerName_; }
-    QString tagName() const;
-
-signals:
-    void activated();
-    void deactivated();
-    void triggered();
-
-private slots:
-    void onTimout();
-
+    TriggerType triggerType() const;
+    const QString& triggerName() const;
+    const QString& watchTag() const;
+    double targetValued() const;
+    int targetValuei() const;
+    int duration() const;
 private:
+    QString typeToApiString(TriggerType type) const;
+    TriggerType type_;
     QString triggerName_;
-    bool isAvtive_ = false;
-
-    std::unique_ptr<QTimer> timer_;
-
-    T setValue_;
-    Tag *targetTag_ = nullptr;
-
-    TagSocket* triggerTagSocket_ = nullptr;
+    QString watchTag_;
+    double targetValued_ = 0.0;
+    int targetValuei_ = 0;
+    int duration_ = 0;
 };
-
-template<typename T>
-Trigger<T>::Trigger(const QString &triggerName, Tag *targetTag)
-    : triggerName_(triggerName)
-    , targetTag_(targetTag)
-{
-    triggerTagSocket_ = TagSocket::createTagSocket<T>("trigger", triggerName);
-    triggerTagSocket_->writeValue(setValue_);
-
-    if(targetTag_)
-        triggerTagSocket_->hookupTag(targetTag_);
-}
-
-template<typename T>
-void Trigger<T>::triggerOnTimout(int minuts)
-{
-    timer_ = std::make_unique<QTimer>(this);
-    timer_->setInterval(minuts * 60 * 1000);
-}
-
-template<typename T>
-void Trigger<T>::activate()
-{
-    isAvtive_ = true;
-    emit activate();
-    if (timer_) {
-        connect(timer_.get(), &QTimer::timeout, this, &Trigger::onTimout);
-        timer_->start();
-    }
-}
-
-template<typename T>
-void Trigger<T>::deactivate()
-{
-    isAvtive_ = false;
-    emit deactivate();
-}
-
-template<typename T>
-void Trigger<T>::setActive(bool isActive)
-{
-    isAvtive_ = isActive;
-    if (isAvtive_)
-        emit activate();
-    else
-        emit deactivated();
-}
-
-template<typename T>
-QString Trigger<T>::tagName() const
-{
-    if (!targetTag_)
-        return QString();
-
-    return targetTag_->getFullName();
-}
-
-template<typename T>
-void Trigger<T>::onTimout()
-{
-    triggerTagSocket_->writeValue(setValue_);
-    emit triggered();
-}
 
 #endif // TRIGGER_H

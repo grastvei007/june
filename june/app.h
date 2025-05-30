@@ -6,6 +6,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequestFactory>
 
+#include "gui/centralwidgetfactory.h"
+
+class TriggerData;
+class ClimateData;
+
 class App : public QApplication
 {
     Q_OBJECT
@@ -21,6 +26,11 @@ private:
     MainWindow *mMainWindow = nullptr;
     QNetworkAccessManager networkAccessManager_;
     QNetworkRequestFactory networkRequestFactory_{{"http://localhost:5005/api"}};
+
+    CentralWiddgetFactory centralWidgetFactory_ = {};
+
+    std::unique_ptr<TriggerData> triggerData_;
+    std::unique_ptr<ClimateData> climateData_;
 };
 
 #endif // APP_H

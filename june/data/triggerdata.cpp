@@ -1,20 +1,45 @@
 #include "triggerdata.h"
+#include <QStringList>
 
-TriggerData::TriggerData(QObject *parent) : QObject(parent)
+TriggerData::TriggerData(QNetworkAccessManager &nam,
+                         QNetworkRequestFactory &networkRequestFactory,
+                         QObject *parent)
+    : QObject(parent)
+    , networkRequestFactory_(networkRequestFactory)
+    , networkAccessManager_(nam)
 {
 
 }
 
-void TriggerData::addTrigger(std::any trigger)
+void TriggerData::addTrigger(const Trigger &trigger)
 {
     triggers_.push_back(trigger);
     emit triggerAdded(triggers_.size());
 }
 
-std::optional<std::any> TriggerData::getTrigger(unsigned int index)
+void TriggerData::createTrigger(TriggerType type,
+                                const QString &triggerName,
+                                const QString &watchTag,
+                                double targetValue)
 {
-   if (index > triggers_.size())
-        return std::nullopt;
+    Trigger trigger(type, triggerName, watchTag, targetValue);
+    addTrigger(trigger);
+    sendTriggerToServer(trigger);
+}
+
+void TriggerData::createTrigger(TriggerType type,
+                                const QString &triggerName,
+                                const QString &watchTag,
+                                int targetValue,
+                                int duration)
+{
+    Trigger trigger(type, triggerName, watchTag, targetValue, duration);
+    addTrigger(trigger);
+    sendTriggerToServer(trigger);
+}
+
+const Trigger& TriggerData::getTrigger(unsigned int index) const
+{
 
     return triggers_.at(index);
 }
@@ -24,3 +49,42 @@ int TriggerData::numberOfTriggers() const
     return triggers_.size();
 }
 
+QStringList TriggerData::triggerTypes() const
+{
+    return QStringList() << toString(TriggerType::TriggerEveryTimeAbove)
+         << toString(TriggerType::TriggerEveryTimeBelow)
+         << toString(TriggerType::TriggerOnTime);
+}
+
+QString TriggerData::toString(TriggerType type) const
+{
+    switch(type)
+    {
+    case TriggerType::TriggerEveryTimeAbove:
+        return "TriggerEveryTimeAbove";
+    case TriggerType::TriggerEveryTimeBelow:
+        return "TriggerEveryTimeBelow";
+    case TriggerType::TriggerOnTime:
+        return "TriggerOnTime";
+    }
+
+    return {};
+}
+
+std::optional<TriggerType> TriggerData::fromString(const QString &type)
+{
+    if(type == "TriggerEveryTimeAbove")
+        return TriggerType::TriggerEveryTimeAbove;
+    else if(type == "TriggerEveryTimeBelow")
+        return TriggerType::TriggerEveryTimeBelow;
+    else if(type == "TriggerOnTime")
+        return TriggerType::TriggerOnTime;
+
+    return std::nullopt;
+}
+
+void TriggerData::sendTriggerToServer(const Trigger &trigger) const
+{
+    QJsonDocument document(trigger.toJson());
+    networkAccessManager_.post(networkRequestFactory_.createRequest("/trigger/create"), document.toJson());
+}

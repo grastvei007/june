@@ -11,18 +11,19 @@
 #include <QNetworkReply>
 #include <QUrl>
 
+#include "data/triggerdata.h"
+#include "data/climatedata.h"
+
+#include "gui/triggerguiwidget.h"
+#include "gui/climateguiwidget.h"
+
 App::App(int argc, char *argv[]) :
     networkAccessManager_(),
     QApplication (argc, argv)
 {
-    mMainWindow = new MainWindow(networkAccessManager_, networkRequestFactory_);
-
     QSettings settings("June", "June");
     QSize size =  settings.value("mainwindow/size").toSize();
-    if(size.isValid())
-        mMainWindow->resize(size);
 
-    mMainWindow->show();
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Pi client to map the gpio to a june server, and manipulate the values over local network");
@@ -44,6 +45,18 @@ App::App(int argc, char *argv[]) :
     TagList::sGetInstance().setClientName("june");
     if(!TagList::sGetInstance().tryToAutoConnect())
         TagList::sGetInstance().connectToServer(parser.value(serverIp), 5000);
+
+    triggerData_ = std::make_unique<TriggerData>(networkAccessManager_, networkRequestFactory_);
+    climateData_ = std::make_unique<ClimateData>(this);
+
+    centralWidgetFactory_.add<TriggerGuiWidget, TriggerData>("Triggers", triggerData_.get());
+    centralWidgetFactory_.add<ClimateGuiWidget, ClimateData>("Climate", climateData_.get());
+
+    mMainWindow = new MainWindow(centralWidgetFactory_, networkAccessManager_, networkRequestFactory_);
+    if(size.isValid())
+        mMainWindow->resize(size);
+
+    mMainWindow->show();
 }
 
 App::~App()
@@ -57,7 +70,9 @@ void App::onConnected()
     const auto adress = TagList::sGetInstance().adress();
     const int port = 5005; // api port
 
-    networkRequestFactory_.setBaseUrl(QUrl(QString("http://%1:%2/api").arg(adress, port)));
+    qDebug() << "Api adress changes: " << QString("http://%1:%2/api").arg(adress, QString::number(port));
+
+    networkRequestFactory_.setBaseUrl(QUrl(QString("http://%1:%2/api").arg(adress, QString::number(port))));
 }
 
 void App::onFinnished(QNetworkReply *reply)

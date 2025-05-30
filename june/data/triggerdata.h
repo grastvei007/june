@@ -2,38 +2,48 @@
 #define TRIGGERDATA_H
 
 #include <vector>
-#include <any>
 #include <optional>
 
 #include <QObject>
+#include <QNetworkRequestFactory>
+#include <QNetworkAccessManager>
 
 #include "trigger.h"
 
+enum class TriggerType
+{
+    TriggerEveryTimeAbove,
+    TriggerEveryTimeBelow,
+    TriggerOnTime
+};
+
+class Trigger;
 
 class TriggerData : public QObject
 {
     Q_OBJECT
 public:
-    explicit TriggerData(QObject *parent = nullptr);
+    explicit TriggerData(QNetworkAccessManager &nam, QNetworkRequestFactory &networkRequestFactory, QObject *parent = nullptr);
 
-    void addTrigger(std::any trigger);
+    void addTrigger(const Trigger &trigger);
+    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, double targetValue);
+    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, int targetValue, int duration);
 
-    std::optional<std::any> getTrigger(unsigned int index);
+    const Trigger& getTrigger(unsigned int index) const;
     int numberOfTriggers() const;
+    QStringList triggerTypes() const;
+    QString toString(TriggerType type) const;
+    std::optional<TriggerType> fromString(const QString &type);
 signals:
     void triggerAdded(int index);
 
 private:
-    std::vector<std::any> triggers_;
+    void sendTriggerToServer(const Trigger &trigger) const;
 
+    std::vector<Trigger> triggers_;
+    QNetworkRequestFactory& networkRequestFactory_;
+    QNetworkAccessManager& networkAccessManager_;
 };
 
-inline auto *trigger_cast(std::any &trigger)
-{
-    if (Trigger<bool> *t = std::any_cast<Trigger<bool> *>(trigger))
-        return t;
-
-    Q_UNREACHABLE();
-}
 
 #endif // TRIGGERDATA_H

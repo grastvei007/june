@@ -5,34 +5,39 @@
 #include <QTableView>
 #include <QMenu>
 #include <QDialog>
+#include <vector>
 
 class TableTool : public QObject
 {
     Q_OBJECT
 public:
     TableTool() : QObject() {}
-    TableTool(QTableView *aTableView);
+    TableTool(QTableView *tableView);
 
 
-    TableTool& addRows(bool aValue);
-    TableTool& removeRows(bool aValue);
+    TableTool& addRows(bool value);
+    TableTool& removeRows(bool value);
+    TableTool& addCustomItem(const QString &name);
 
     TableTool& build();
 
-    TableTool& operator=(const TableTool &aTableTool);
+    TableTool& operator=(const TableTool &tableTool);
 signals:
-
+    void customItemClicked(QString);
 private slots:
-    void onContextMenu(const QPoint &aPoint);
+    void onContextMenu(const QPoint &point);
     void onAddRowClicked(bool);
     void onRemoveRowClicked(bool);
+    void onCustomItemClicked(bool);
 
 private:
-    QTableView *mTableView = nullptr;
-    QMenu *mContextMenu = nullptr;
+    QTableView *tableView_ = nullptr;
+    QMenu *contextMenu_ = nullptr;
 
-    bool mAddRows = false;
-    bool mRemoveRows = false;
+    bool addRows_ = false;
+    bool removeRows_ = false;
+
+    std::vector<QString> customItems_;
 };
 
 #endif // TABLETOOL_H
