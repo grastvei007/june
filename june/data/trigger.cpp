@@ -41,12 +41,12 @@ QJsonObject Trigger::toJson() const
 
     if(type_ == TriggerType::TriggerEveryTimeAbove || type_ == TriggerType::TriggerEveryTimeBelow)
     {
-        obj.insert("triggervalue", QString::number(targetValued_));
+        obj.insert("triggervalue", targetValued_);
     }
     else if(type_ == TriggerType::TriggerOnTime)
     {
-        obj.insert("triggervalue", QString::number(targetValuei_));
-        obj.insert("duration", QString::number(duration_));
+        obj.insert("triggervalue", targetValuei_);
+        obj.insert("duration", duration_);
     }
 
     return obj;
