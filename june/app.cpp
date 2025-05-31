@@ -38,6 +38,7 @@ App::App(int argc, char *argv[]) :
 
     TagSocketList::sGetInstance().setApplicationName("june");
     TagSocketList::sGetInstance().loadBindingList();
+    TagSocketList::sGetInstance().setAutoSave();
 
     connect(&TagList::sGetInstance(), &TagList::connected, this, &App::onConnected);
     connect(&networkAccessManager_, &QNetworkAccessManager::finished, this, &App::onFinnished);
