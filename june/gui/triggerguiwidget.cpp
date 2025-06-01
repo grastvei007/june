@@ -15,6 +15,7 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
 
     tableView_.reset(new QTableView(this));
     tableView_->horizontalHeader()->setSectionsClickable(true);
+    tableView_->horizontalHeader()->setStretchLastSection(true);
     tableView_->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableView_->setModel(tableModel_.get());
 
