@@ -26,19 +26,26 @@ public:
     explicit TriggerData(QNetworkAccessManager &nam, QNetworkRequestFactory &networkRequestFactory, QObject *parent = nullptr);
 
     void addTrigger(const Trigger &trigger);
-    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, double targetValue);
-    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, int targetValue, int duration);
+    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, double targetValue, bool sendToServer=true);
+    void createTrigger(TriggerType type, const QString &triggerName, const QString &watchTag, int targetValue, int duration, bool sendToServer=true);
 
     const Trigger& getTrigger(unsigned int index) const;
     int numberOfTriggers() const;
     QStringList triggerTypes() const;
     QString toString(TriggerType type) const;
     std::optional<TriggerType> fromString(const QString &type);
+
+    void fetchFromServer();
 signals:
     void triggerAdded(int index);
 
+private slots:
+    void onFetchFromServerFinnished();
+
 private:
     void sendTriggerToServer(const Trigger &trigger) const;
+    bool hasTrigger(const QString &triggerName) const;
+    std::optional<TriggerType> fromApiString(const QString &str) const;
 
     std::vector<Trigger> triggers_;
     QNetworkRequestFactory& networkRequestFactory_;

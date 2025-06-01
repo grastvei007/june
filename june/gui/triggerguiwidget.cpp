@@ -30,6 +30,8 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
     grid->addWidget(tableView_.get());
 
     setLayout(grid);
+
+    triggerData_->fetchFromServer();
 }
 
 void TriggerGuiWidget::onCustomItemAddTriggerClicked(QString name)
