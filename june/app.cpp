@@ -80,6 +80,4 @@ void App::onFinnished(QNetworkReply *reply)
 {
     if(reply->error())
         qDebug() << reply->errorString();
-    else
-        qDebug() << reply->readAll();
 }
