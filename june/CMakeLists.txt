@@ -42,6 +42,8 @@ qt_add_executable(june
     gui/triggerguiwidget.cpp
     gui/pigpiowidget.h
     gui/pigpiowidget.cpp
+    gui/pigpiotablemodel.h
+    gui/pigpiotablemodel.cpp
 
     data/climatedata.h
     data/climatedata.cpp
