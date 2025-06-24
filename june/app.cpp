@@ -13,9 +13,11 @@
 
 #include "data/triggerdata.h"
 #include "data/climatedata.h"
+#include "data/pigpiodata.h"
 
 #include "gui/triggerguiwidget.h"
 #include "gui/climateguiwidget.h"
+#include "gui/pigpiowidget.h"
 
 App::App(int argc, char *argv[]) :
     networkAccessManager_(),
@@ -49,9 +51,11 @@ App::App(int argc, char *argv[]) :
 
     triggerData_ = std::make_unique<TriggerData>(networkAccessManager_, networkRequestFactory_);
     climateData_ = std::make_unique<ClimateData>(this);
+    piGpioData_ = std::make_unique<PiGpioData>(networkAccessManager_, networkRequestFactory_);
 
     centralWidgetFactory_.add<TriggerGuiWidget, TriggerData>("Triggers", triggerData_.get());
     centralWidgetFactory_.add<ClimateGuiWidget, ClimateData>("Climate", climateData_.get());
+    centralWidgetFactory_.add<PiGpioWidget, PiGpioData>("pi-gpio", piGpioData_.get());
 
     mMainWindow = new MainWindow(centralWidgetFactory_, networkAccessManager_, networkRequestFactory_);
     if(size.isValid())

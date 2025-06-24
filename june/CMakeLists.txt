@@ -40,6 +40,10 @@ qt_add_executable(june
     gui/triggerdatatablemodel.cpp
     gui/triggerguiwidget.h
     gui/triggerguiwidget.cpp
+    gui/pigpiowidget.h
+    gui/pigpiowidget.cpp
+    gui/pigpiotablemodel.h
+    gui/pigpiotablemodel.cpp
 
     data/climatedata.h
     data/climatedata.cpp
@@ -48,8 +52,16 @@ qt_add_executable(june
     data/triggerdata.h
     data/triggerdata.cpp
     data/trigger.h data/trigger.cpp
+    data/pigpiodata.h
+    data/pigpiodata.cpp
+
     gui/centralwidgetfactory.h
-    gui/addtrigger.h gui/addtrigger.cpp gui/addtrigger.ui
+    gui/addtrigger.h
+    gui/addtrigger.cpp
+    gui/addtrigger.ui
+
+    gui/comboboxdelegate.h
+    gui/comboboxdelegate.cpp
 )
 
 

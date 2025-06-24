@@ -2,8 +2,6 @@
 #include "data/trigger.h"
 #include <QColor>
 #include <QString>
-#include <any>
-#include <optional>
 
 TriggerDataTableModel::TriggerDataTableModel(TriggerData *triggerData) :
     triggerData_(triggerData)
