@@ -43,14 +43,20 @@ public:
     int numberOfPins() const;
 
     const RpiGpioPin &getGpioPin(int index) const;
+    void updatePinDirection(int index, QString direction);
+    void updatePinEnable(int index, bool enabled);
 
 signals:
     void dataReady();
+    void directionUpdated();
+    void enabledUpdated();
 
 private slots:
     void onFetchFromServerFinnished();
+    void onUpdateResponseFromServer();
 
 private:
+    void updateConfig(const QJsonObject &obj);
     QNetworkRequestFactory& networkRequestFactory_;
     QNetworkAccessManager& networkAccessManager_;
 

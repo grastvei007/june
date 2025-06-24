@@ -7,6 +7,7 @@
 #include <QJsonObject>
 
 #include <optional>
+#include <ranges>
 
 #include <tagsystem/util/json.h>
 
@@ -78,6 +79,24 @@ const RpiGpioPin &PiGpioData::getGpioPin(int index) const
     return gpioPins_.at(index);
 }
 
+void PiGpioData::updatePinDirection(int index, QString direction)
+{
+    const auto &pin = getGpioPin(index);
+    QJsonObject obj;
+    obj.insert("wiringpi", pin.wiringPiPin());
+    obj.insert("dir", direction);
+    updateConfig(obj);
+}
+
+void PiGpioData::updatePinEnable(int index, bool enabled)
+{
+    const auto &pin = getGpioPin(index);
+    QJsonObject obj;
+    obj.insert("wiringpi", pin.wiringPiPin());
+    obj.insert("enabled", enabled);
+    updateConfig(obj);
+}
+
 void PiGpioData::onFetchFromServerFinnished()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
@@ -106,3 +125,39 @@ void PiGpioData::onFetchFromServerFinnished()
     emit dataReady();
 }
 
+void PiGpioData::updateConfig(const QJsonObject &obj)
+{
+    QNetworkReply *reply = networkAccessManager_.post(networkRequestFactory_.createRequest(
+                                                          "/gpio/update"),
+                                                      QJsonDocument(obj).toJson());
+    connect(reply, &QNetworkReply::finished, this, &PiGpioData::onUpdateResponseFromServer);
+}
+
+void PiGpioData::onUpdateResponseFromServer()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    auto gpioPin = util::json::byteArrayToJsonObject(reply->readAll());
+    reply->deleteLater();
+
+    if (!gpioPin.has_value())
+        return;
+
+    const QJsonObject value = gpioPin.value();
+
+    auto wiringPiPin = value.value("wiringpi").toInt();
+    for (auto &pin : gpioPins_ | std::views::filter([&wiringPiPin](auto &pin) {
+                         return pin.wiringPiPin() == wiringPiPin;
+                     }))
+    {
+        if (value.contains("dir"))
+        {
+            pin.setDirection(value.value("dir").toString());
+            emit directionUpdated();
+        }
+        if (value.contains("enabled"))
+        {
+            pin.setEnabled(value.value("enabled").toBool());
+            emit enabledUpdated();
+        }
+    }
+}
