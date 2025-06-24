@@ -59,6 +59,9 @@ qt_add_executable(june
     gui/addtrigger.h
     gui/addtrigger.cpp
     gui/addtrigger.ui
+
+    gui/comboboxdelegate.h
+    gui/comboboxdelegate.cpp
 )
 
 
