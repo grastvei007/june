@@ -35,7 +35,8 @@ private:
     std::unique_ptr<TriggerDataTableModel> tableModel_;
 
     TableTool tableTool_;
-    QString customItemAddTrigger_ = {"Add Trigger"};
+    QString customItemAddTrigger_{"Add Trigger"};
+    QString customItemUploadFromFile_{"Upload from file"};
 };
 
 #endif // TRIGGERGUIWIDGET_H

@@ -14,7 +14,8 @@ enum class TriggerType
 {
     TriggerEveryTimeAbove,
     TriggerEveryTimeBelow,
-    TriggerOnTime
+    TriggerOnTime,
+    ScheduleOnDuration
 };
 
 class Trigger;
@@ -35,9 +36,12 @@ public:
     QString toString(TriggerType type) const;
     std::optional<TriggerType> fromString(const QString &type);
 
+    void uplaodTriggerFile(const QString &filename);
+
     void fetchFromServer();
 signals:
     void triggerAdded(int index);
+    void dataReady();
 
 private slots:
     void onFetchFromServerFinnished();
