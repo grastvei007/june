@@ -92,6 +92,8 @@ QString Trigger::typeToApiString(TriggerType type) const
         return "trigggerBelow";
     case TriggerType::TriggerOnTime:
         return "triggerOnTime";
+    case TriggerType::ScheduleOnDuration:
+        return "scheduleOnDuration";
     }
 
     return {};

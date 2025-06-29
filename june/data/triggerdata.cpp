@@ -2,6 +2,7 @@
 #include <QStringList>
 
 #include <QNetworkReply>
+#include <QFile>
 #include <optional>
 
 #include <tagsystem/util/json.h>
@@ -63,7 +64,8 @@ QStringList TriggerData::triggerTypes() const
 {
     return QStringList() << toString(TriggerType::TriggerEveryTimeAbove)
          << toString(TriggerType::TriggerEveryTimeBelow)
-         << toString(TriggerType::TriggerOnTime);
+         << toString(TriggerType::TriggerOnTime)
+         << toString(TriggerType::ScheduleOnDuration);
 }
 
 QString TriggerData::toString(TriggerType type) const
@@ -76,6 +78,8 @@ QString TriggerData::toString(TriggerType type) const
         return "TriggerEveryTimeBelow";
     case TriggerType::TriggerOnTime:
         return "TriggerOnTime";
+    case TriggerType::ScheduleOnDuration:
+        return "ScheduleOnDuration";
     }
 
     return {};
@@ -89,8 +93,26 @@ std::optional<TriggerType> TriggerData::fromString(const QString &type)
         return TriggerType::TriggerEveryTimeBelow;
     else if(type == "TriggerOnTime")
         return TriggerType::TriggerOnTime;
+    else if (type == "ScheduleOnDuration")
+        return TriggerType::ScheduleOnDuration;
 
     return std::nullopt;
+}
+
+void TriggerData::uplaodTriggerFile(const QString &filename)
+{
+    QFile file(filename);
+    if (!file.exists())
+        return;
+
+    if (file.open(QIODevice::ReadOnly))
+    {
+        auto data = file.readAll();
+        QNetworkReply *reply = networkAccessManager_.post(networkRequestFactory_.createRequest(
+                                                              "/trigger/upload"),
+                                                          data);
+        connect(reply, &QNetworkReply::finished, this, &TriggerData::onFetchFromServerFinnished);
+    }
 }
 
 void TriggerData::fetchFromServer()
@@ -122,6 +144,9 @@ void TriggerData::onFetchFromServerFinnished()
 
     if(!triggers.has_value())
         return;
+
+    triggers_.clear();
+
     const QJsonArray array = triggers.value();
     for(const auto &ref : array)
     {
@@ -145,9 +170,15 @@ void TriggerData::onFetchFromServerFinnished()
             {
                 double triggerValue = trigger.value("triggervalue").toDouble();
                 createTrigger(triggerType, triggerName, watchTagName, triggerValue, false);
+            } else if (triggerType == TriggerType::ScheduleOnDuration)
+            {
+                int duration = trigger.value("duration").toInt();
+                int startTime = trigger.value("starttime").toInt();
+                createTrigger(triggerType, triggerName, watchTagName, startTime, duration, false);
             }
         }
     }
+    emit dataReady();
 }
 
 std::optional<TriggerType> TriggerData::fromApiString(const QString &str) const
@@ -158,6 +189,8 @@ std::optional<TriggerType> TriggerData::fromApiString(const QString &str) const
         return TriggerType::TriggerEveryTimeBelow;
     else if(str == "triggerOnTime")
         return TriggerType::TriggerOnTime;
+    else if (str == "scheduleOnDuration")
+        return TriggerType::ScheduleOnDuration;
 
     return std::nullopt;
 }

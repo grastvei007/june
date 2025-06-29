@@ -7,6 +7,11 @@ TriggerDataTableModel::TriggerDataTableModel(TriggerData *triggerData) :
     triggerData_(triggerData)
 {
     connect(triggerData_, &TriggerData::triggerAdded, this, &TriggerDataTableModel::onTriggerAdded);
+
+    connect(triggerData_, &TriggerData::dataReady, this, [this]() {
+        beginResetModel();
+        endResetModel();
+    });
 }
 
 int TriggerDataTableModel::rowCount(const QModelIndex &parent) const
