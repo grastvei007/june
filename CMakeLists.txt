@@ -15,6 +15,8 @@ find_package(Qt6 COMPONENTS WebSockets REQUIRED)
 
 qt_standard_project_setup()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 add_subdirectory(core)
 add_subdirectory(tagsystem)
 add_subdirectory(influxdb)
