@@ -64,6 +64,10 @@ qt_add_executable(june
 
     gui/comboboxdelegate.h
     gui/comboboxdelegate.cpp
+    gui/tagsocketbindingwidget.h
+    gui/tagsocketbindingwidget.cpp
+    gui/tagsocketbindingtablemodel.h
+    gui/tagsocketbindingtablemodel.cpp
 )
 
 
