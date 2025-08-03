@@ -13,6 +13,9 @@ class TagSocketBindingWidget : public QWidget
 public:
     TagSocketBindingWidget(TagSocketBindingData *data, QWidget *parent = nullptr);
 
+private slots:
+    void onDoubleClick(const QModelIndex &aIndex);
+
 private:
     TagSocketBindingData *data_ = nullptr;
 

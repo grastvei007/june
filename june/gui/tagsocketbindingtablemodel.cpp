@@ -14,6 +14,11 @@ TagSocketBindingTableModel::TagSocketBindingTableModel(TagSocketBindingData *dat
         beginResetModel();
         endResetModel();
     });
+
+    connect(data_, &TagSocketBindingData::bindingUpdated, this, [this](int i){
+        QModelIndex idx = index(i, eTag);
+        emit dataChanged(idx, idx);
+    });
 }
 
 int TagSocketBindingTableModel::rowCount(const QModelIndex &parent) const
@@ -84,7 +89,12 @@ QVariant TagSocketBindingTableModel::headerData(int section,
 
 bool TagSocketBindingTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if(role != Qt::EditRole)
+        return false;
 
+    data_->updateTag(index.row(), value.toString());
+    // normally return true here, but return false instead and the update
+    // is done when the reply is returned by server.
     return false;
 }
 
