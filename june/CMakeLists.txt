@@ -15,6 +15,7 @@ find_package(Qt6 COMPONENTS Widgets REQUIRED)
 find_package(Qt6 COMPONENTS Gui REQUIRED)
 find_package(Qt6 COMPONENTS Core REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS SerialPort)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_add_executable(june
     main.cpp
@@ -47,10 +48,12 @@ qt_add_executable(june
     data/climatedata.h
     data/climatedata.cpp
 
-
+    data/tagsocketbindingdata.h
+    data/tagsocketbindingdata.cpp
     data/triggerdata.h
     data/triggerdata.cpp
-    data/trigger.h data/trigger.cpp
+    data/trigger.h
+    data/trigger.cpp
     data/pigpiodata.h
     data/pigpiodata.cpp
 
@@ -61,6 +64,10 @@ qt_add_executable(june
 
     gui/comboboxdelegate.h
     gui/comboboxdelegate.cpp
+    gui/tagsocketbindingwidget.h
+    gui/tagsocketbindingwidget.cpp
+    gui/tagsocketbindingtablemodel.h
+    gui/tagsocketbindingtablemodel.cpp
 )
 
 
@@ -78,6 +85,7 @@ else()
     message("Release mode")
     target_link_libraries(june PRIVATE tagsystem)
     target_link_libraries(june PRIVATE core)
+target_link_libraries(june PRIVATE Qt6::Core)
 endif()
 
 

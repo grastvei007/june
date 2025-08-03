@@ -41,6 +41,7 @@ MainWindow::MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAcce
     mListWidget->addItem("Climate");
     mListWidget->addItem("Triggers");
     mListWidget->addItem("pi-gpio");
+    mListWidget->addItem("TagSocketBinding");
 
     setCentralWidgetByName("Triggers");
 }
