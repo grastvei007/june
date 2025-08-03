@@ -18,6 +18,8 @@ public:
     const QString& tagSocketName() const { return tagSocketName_;}
     const QString& tag() const{ return tag_;}
     TagSocket::Type type() const{ return type_;}
+
+    void setTag(const QString& tag);
 private:
     QString tagSocketSubsystem_;
     QString tagSocketName_;
@@ -35,12 +37,16 @@ public:
     const TagSocketBinding& binding(int index) const;
     int numberOfBindings() const;
 
+    void updateTag(int index, const QString& tag);
+
     void fetchFromServer();
 signals:
     void dataReady();
+    void bindingUpdated(int index);
 
 private slots:
     void onFetchFromServerFinnished();
+    void onHookupOnServerFinnished();
 
 private:
     QNetworkRequestFactory& networkRequestFactory_;

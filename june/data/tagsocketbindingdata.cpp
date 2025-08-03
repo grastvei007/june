@@ -28,6 +28,20 @@ int TagSocketBindingData::numberOfBindings() const
     return tagSocketBindings_.size();
 }
 
+void TagSocketBindingData::updateTag(int index, const QString &tag)
+{
+    auto element = binding(index);
+    QJsonObject obj;
+    obj.insert("tagsocket", QString("%1.%2").arg(element.tagSocketSubsystem(), element.tagSocketName()));
+    obj.insert("tag", tag);
+
+    QJsonDocument document(obj);
+    QNetworkReply *reply = networkAccessManager_.post(
+        networkRequestFactory_.createRequest("/tagsocket/hookup"), document.toJson());
+
+    connect(reply, &QNetworkReply::finished, this, &TagSocketBindingData::onHookupOnServerFinnished);
+}
+
 void TagSocketBindingData::fetchFromServer()
 {
     QNetworkReply *reply = networkAccessManager_.get(
@@ -62,6 +76,28 @@ void TagSocketBindingData::onFetchFromServerFinnished()
     emit dataReady();
 }
 
+void TagSocketBindingData::onHookupOnServerFinnished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    auto json = util::json::byteArrayToJsonObject(reply->readAll());
+    reply->deleteLater();
+
+    if(!json.has_value())
+        return;
+
+    QJsonObject obj = json.value();
+    auto tagsocketSubsystem = obj.value("subsystem").toString();
+    auto tagsocketName = obj.value("name").toString();
+    auto tag = obj.value("tagname").toString();
+
+    auto bindingIter = std::find_if(tagSocketBindings_.begin(), tagSocketBindings_.end(), [&tagsocketSubsystem, &tagsocketName](const auto& elm){
+        return tagsocketName == elm.tagSocketName() && tagsocketSubsystem == elm.tagSocketSubsystem();
+    });
+
+    bindingIter->setTag(tag);
+    emit bindingUpdated(std::distance(tagSocketBindings_.begin(), bindingIter));
+}
+
 TagSocketBinding::TagSocketBinding(const QString &tagSocketSubsystem,
                                    const QString &tagSocketName,
                                    const QString &tag,
@@ -72,4 +108,9 @@ TagSocketBinding::TagSocketBinding(const QString &tagSocketSubsystem,
     type_(type)
 {
 
+}
+
+void TagSocketBinding::setTag(const QString &tag)
+{
+    tag_ = tag;
 }
