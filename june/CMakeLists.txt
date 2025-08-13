@@ -48,6 +48,8 @@ qt_add_executable(june
     data/climatedata.h
     data/climatedata.cpp
 
+    data/logvaluedata.h
+    data/logvaluedata.cpp
     data/tagsocketbindingdata.h
     data/tagsocketbindingdata.cpp
     data/triggerdata.h
@@ -60,14 +62,22 @@ qt_add_executable(june
     gui/centralwidgetfactory.h
     gui/addtrigger.h
     gui/addtrigger.cpp
-    gui/addtrigger.ui
 
+    gui/addvaluedialog.h
+    gui/addvaluedialog.cpp
+    gui/logvaluetablemodel.h
+    gui/logvaluetablemodel.cpp
+    gui/logvaluewidget.h
+    gui/logvaluewidget.cpp
     gui/comboboxdelegate.h
     gui/comboboxdelegate.cpp
     gui/tagsocketbindingwidget.h
     gui/tagsocketbindingwidget.cpp
     gui/tagsocketbindingtablemodel.h
     gui/tagsocketbindingtablemodel.cpp
+
+    gui/addvaluedialog.ui
+    gui/addtrigger.ui
 )
 
 
