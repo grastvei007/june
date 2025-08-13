@@ -1,5 +1,7 @@
 #include "gui/tabletool.h"
 
+#include <QItemSelectionModel>
+
 
 TableTool::TableTool(QTableView *tableView) : QObject(),
     tableView_(tableView)
@@ -89,6 +91,9 @@ void TableTool::onAddRowClicked(bool triggered)
 void TableTool::onRemoveRowClicked(bool triggered)
 {
     Q_UNUSED(triggered);
+    QModelIndex index  = tableView_->currentIndex();
+    if(index.isValid())
+        tableView_->model()->removeRows(index.row(), 1, index);
 }
 
 void TableTool::onCustomItemClicked(bool triggered)
