@@ -42,6 +42,7 @@ MainWindow::MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAcce
     mListWidget->addItem("Triggers");
     mListWidget->addItem("pi-gpio");
     mListWidget->addItem("TagSocketBinding");
+    mListWidget->addItem("LogValues");
 
     setCentralWidgetByName("Triggers");
 }
