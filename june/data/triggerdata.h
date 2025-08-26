@@ -49,7 +49,6 @@ private slots:
 private:
     void sendTriggerToServer(const Trigger &trigger) const;
     bool hasTrigger(const QString &triggerName) const;
-    std::optional<TriggerType> fromApiString(const QString &str) const;
 
     std::vector<Trigger> triggers_;
     QNetworkRequestFactory& networkRequestFactory_;
