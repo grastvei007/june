@@ -23,7 +23,7 @@ int TriggerDataTableModel::rowCount(const QModelIndex &parent) const
 int TriggerDataTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 4;
+    return 5;
 }
 
 QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -39,6 +39,8 @@ QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientat
                 return "Trigger value";
             case eActive:
                 return "Acvive";
+            case eEnabled:
+                return "Enabled";
             default:
                 break;
             }
@@ -76,6 +78,8 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
         }
         case eActive:
             return true;
+        case eEnabled:
+            return trigger.isEnabled();
         default:
             break;
         }
