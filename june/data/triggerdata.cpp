@@ -155,42 +155,11 @@ void TriggerData::onFetchFromServerFinnished()
         if(triggerName.isEmpty() || hasTrigger(triggerName))
             continue;
 
-        if(const auto type = fromApiString( trigger.value("type").toString()); type.has_value())
+        if(const auto type = Trigger::fromApiString( trigger.value("type").toString()); type.has_value())
         {
-            const QString subsystem = trigger.value("subsystem").toString();
-            const QString name = trigger.value("name").toString();
-            const QString watchTagName = QString("%1.%2").arg(subsystem, name);
-            if(const auto triggerType = type.value(); triggerType == TriggerType::TriggerOnTime)
-            {
-                int triggerValue = trigger.value("triggervalue").toInt();
-                int duration = trigger.value("duration").toInt();
-                createTrigger(triggerType, triggerName, watchTagName, triggerValue, duration, false);
-            }
-            else if(triggerType == TriggerType::TriggerEveryTimeAbove || triggerType == TriggerType::TriggerEveryTimeBelow)
-            {
-                double triggerValue = trigger.value("triggervalue").toDouble();
-                createTrigger(triggerType, triggerName, watchTagName, triggerValue, false);
-            } else if (triggerType == TriggerType::ScheduleOnDuration)
-            {
-                int duration = trigger.value("duration").toInt();
-                int startTime = trigger.value("starttime").toInt();
-                createTrigger(triggerType, triggerName, watchTagName, startTime, duration, false);
-            }
+            triggers_.emplace_back(Trigger(trigger));
         }
     }
     emit dataReady();
 }
 
-std::optional<TriggerType> TriggerData::fromApiString(const QString &str) const
-{
-    if(str == "triggerAbove")
-        return TriggerType::TriggerEveryTimeAbove;
-    else if(str == "trigggerBelow")
-        return TriggerType::TriggerEveryTimeBelow;
-    else if(str == "triggerOnTime")
-        return TriggerType::TriggerOnTime;
-    else if (str == "scheduleOnDuration")
-        return TriggerType::ScheduleOnDuration;
-
-    return std::nullopt;
-}
