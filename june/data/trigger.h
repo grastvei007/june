@@ -5,6 +5,13 @@
 #include <QJsonObject>
 
 enum class TriggerType;
+enum class TwoValueTrigger;
+
+struct TwoValueTriggerPair
+{
+    TwoValueTrigger rule;
+    double value;
+};
 
 class Trigger
 {
@@ -33,6 +40,9 @@ private:
     int targetValuei_ = 0;
     int duration_ = 0;
     bool isEnabled_ = true;
+
+    TwoValueTriggerPair triggerOnValue_;
+    TwoValueTriggerPair triggerOffValue_;
 };
 
 #endif // TRIGGER_H
