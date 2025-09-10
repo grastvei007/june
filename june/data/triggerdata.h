@@ -15,7 +15,14 @@ enum class TriggerType
     TriggerEveryTimeAbove,
     TriggerEveryTimeBelow,
     TriggerOnTime,
-    ScheduleOnDuration
+    ScheduleOnDuration,
+    TriggerTwoValues
+};
+
+enum class TwoValueTrigger
+{
+    TriggerAboveValue,
+    TriggerBelowValue
 };
 
 class Trigger;

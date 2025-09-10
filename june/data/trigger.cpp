@@ -28,6 +28,20 @@ Trigger::Trigger(TriggerType type,
 
 }
 
+Trigger::Trigger(TriggerType type,
+                 const QString &triggerName,
+                 const QString &watchTag,
+                 TwoValueTriggerPair on,
+                 TwoValueTriggerPair off) :
+    type_(type),
+    triggerName_(triggerName),
+    watchTag_(watchTag),
+    triggerOnValue_(on),
+    triggerOffValue_(off)
+{
+
+}
+
 Trigger::Trigger(const QJsonObject &obj)
 {
     triggerName_ = obj.value("triggername").toString();
@@ -146,6 +160,44 @@ int Trigger::duration() const
 bool Trigger::isEnabled() const
 {
     return isEnabled_;
+}
+
+TwoValueTriggerPair Trigger::onValue() const
+{
+    return triggerOnValue_;
+}
+
+TwoValueTriggerPair Trigger::offValue() const
+{
+    return triggerOffValue_;
+}
+
+void Trigger::setWatchTag(const QString &watchTag)
+{
+    if (!watchTag.contains("."))
+        return;
+    watchTag_ = watchTag;
+}
+
+void Trigger::setEnable(bool enable)
+{
+    isEnabled_ = enable;
+}
+
+void Trigger::setTwoValueTrigger(double on, double off)
+{
+    triggerOnValue_.value = on;
+    triggerOffValue_.value = off;
+}
+
+void Trigger::setTargetValue(int target)
+{
+    targetValuei_ = target;
+}
+
+void Trigger::setDuration(int duration)
+{
+    duration_ = duration;
 }
 
 std::optional<TriggerType> Trigger::fromApiString(const QString &type)

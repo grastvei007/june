@@ -18,6 +18,10 @@ class Trigger
 public:
     Trigger(TriggerType type, const QString &triggerName, const QString &watchTag, double targetValue);
     Trigger(TriggerType type, const QString &triggerName, const QString &watchTag, int targetValue, int duration);
+    Trigger(TriggerType type,
+            const QString &triggerName,
+            const QString &watchTag,
+            TwoValueTriggerPair on, TwoValueTriggerPair off);
     Trigger(const QJsonObject &obj);
 
     QJsonObject toJson() const;
@@ -29,6 +33,15 @@ public:
     int targetValuei() const;
     int duration() const;
     bool isEnabled() const;
+
+    TwoValueTriggerPair onValue() const;
+    TwoValueTriggerPair offValue() const;
+
+    void setWatchTag(const QString &watchTag);
+    void setEnable(bool enable);
+    void setTwoValueTrigger(double on, double off);
+    void setTargetValue(int target);
+    void setDuration(int duration);
 
     static std::optional<TriggerType> fromApiString(const QString &type);
 private:
