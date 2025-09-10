@@ -19,3 +19,6 @@
 [submodule "plugins"]
 	path = plugins
 	url = git@github.com:grastvei007/plugins.git
+[submodule "tools"]
+	path = tools
+	url = git@github.com:grastvei007/tools.git
