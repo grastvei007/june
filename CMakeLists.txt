@@ -28,9 +28,9 @@ add_subdirectory(plugins)
 add_subdirectory(server)
 add_subdirectory(hwcom)
 add_subdirectory(june)
+add_subdirectory(tools)
 
 add_dependencies(device tagsystem)
 add_dependencies(hwcom device)
 add_dependencies(juneserver tagsystem influxdb)
 add_dependencies(june tagsystem)
-
