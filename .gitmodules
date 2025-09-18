@@ -22,3 +22,6 @@
 [submodule "tools"]
 	path = tools
 	url = git@github.com:grastvei007/tools.git
+[submodule "software"]
+	path = software
+	url = git@github.com:grastvei007/software.git
