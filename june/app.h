@@ -13,6 +13,7 @@ class ClimateData;
 class PiGpioData;
 class TagSocketBindingData;
 class LogValueData;
+class FarmingData;
 
 class App : public QApplication
 {
@@ -37,6 +38,7 @@ private:
     std::unique_ptr<PiGpioData> piGpioData_;
     std::unique_ptr<TagSocketBindingData> tagSocketBindingData_;
     std::unique_ptr<LogValueData> logValueData_;
+    std::unique_ptr<FarmingData> farmingData_;
 };
 
 #endif // APP_H

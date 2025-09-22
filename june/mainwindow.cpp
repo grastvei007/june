@@ -10,8 +10,6 @@
 
 #include "gui/menubar.h"
 #include "gui/statusbar.h"
-#include "gui/climateguiwidget.h"
-#include "gui/triggerguiwidget.h"
 #include "gui/plugins.h"
 #include "gui/centralwidgetfactory.h"
 
@@ -43,6 +41,7 @@ MainWindow::MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAcce
     mListWidget->addItem("pi-gpio");
     mListWidget->addItem("TagSocketBinding");
     mListWidget->addItem("LogValues");
+    mListWidget->addItem("Farming");
 
     setCentralWidgetByName("Triggers");
 }

@@ -48,6 +48,8 @@ qt_add_executable(june
     data/climatedata.h
     data/climatedata.cpp
 
+    data/farmingdata.h
+    data/farmingdata.cpp
     data/logvaluedata.h
     data/logvaluedata.cpp
     data/tagsocketbindingdata.h
@@ -65,6 +67,8 @@ qt_add_executable(june
 
     gui/addvaluedialog.h
     gui/addvaluedialog.cpp
+    gui/farmingwidget.h
+    gui/farmingwidget.cpp
     gui/logvaluetablemodel.h
     gui/logvaluetablemodel.cpp
     gui/logvaluewidget.h
@@ -78,6 +82,7 @@ qt_add_executable(june
 
     gui/addvaluedialog.ui
     gui/addtrigger.ui
+    gui/farmingwidget.ui
 )
 
 

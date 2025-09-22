@@ -28,6 +28,20 @@ Trigger::Trigger(TriggerType type,
 
 }
 
+Trigger::Trigger(TriggerType type,
+                 const QString &triggerName,
+                 const QString &watchTag,
+                 TwoValueTriggerPair on,
+                 TwoValueTriggerPair off) :
+    type_(type),
+    triggerName_(triggerName),
+    watchTag_(watchTag),
+    triggerOnValue_(on),
+    triggerOffValue_(off)
+{
+
+}
+
 Trigger::Trigger(const QJsonObject &obj)
 {
     triggerName_ = obj.value("triggername").toString();
@@ -52,6 +66,29 @@ Trigger::Trigger(const QJsonObject &obj)
         duration_ = obj.value("duration").toInt();
         targetValuei_ = obj.value("starttime").toInt();
     }
+    else if(type_ == TriggerType::TriggerTwoValues)
+    {
+        if (obj.contains("triggeronbelowvalue"))
+        {
+            triggerOnValue_.value = obj.value("triggeronbelowvalue").toDouble();
+            triggerOnValue_.rule = TwoValueTrigger::TriggerBelowValue;
+        }
+        if (obj.contains("triggeronabovevalue"))
+        {
+            triggerOnValue_.value = obj.value("triggeronabovevalue").toDouble();
+            triggerOnValue_.rule = TwoValueTrigger::TriggerAboveValue;
+        }
+        if (obj.contains("triggeroffbelowvalue"))
+        {
+            triggerOffValue_.value = obj.value("triggeroffbelowvalue").toDouble();
+            triggerOffValue_.rule = TwoValueTrigger::TriggerBelowValue;
+        }
+        if (obj.contains("triggeroffabovevalue"))
+        {
+            triggerOffValue_.value = obj.value("triggeroffabovevalue").toDouble();
+            triggerOffValue_.rule = TwoValueTrigger::TriggerAboveValue;
+        }
+    }
 }
 
 QJsonObject Trigger::toJson() const
@@ -74,6 +111,17 @@ QJsonObject Trigger::toJson() const
     {
         obj.insert("triggervalue", targetValuei_);
         obj.insert("duration", duration_);
+    } else if (type_ == TriggerType::TriggerTwoValues)
+    {
+        auto on = (triggerOnValue_.rule == TwoValueTrigger::TriggerAboveValue)
+                      ? "triggeronabovevalue"
+                      : "triggeronbelowvalue";
+        obj.insert(on, triggerOnValue_.value);
+
+        auto off = (triggerOffValue_.rule == TwoValueTrigger::TriggerAboveValue)
+                       ? "triggeroffabovevalue"
+                       : "triggeroffbelowvalue";
+        obj.insert(off, triggerOffValue_.value);
     }
 
     return obj;
@@ -114,6 +162,44 @@ bool Trigger::isEnabled() const
     return isEnabled_;
 }
 
+TwoValueTriggerPair Trigger::onValue() const
+{
+    return triggerOnValue_;
+}
+
+TwoValueTriggerPair Trigger::offValue() const
+{
+    return triggerOffValue_;
+}
+
+void Trigger::setWatchTag(const QString &watchTag)
+{
+    if (!watchTag.contains("."))
+        return;
+    watchTag_ = watchTag;
+}
+
+void Trigger::setEnable(bool enable)
+{
+    isEnabled_ = enable;
+}
+
+void Trigger::setTwoValueTrigger(double on, double off)
+{
+    triggerOnValue_.value = on;
+    triggerOffValue_.value = off;
+}
+
+void Trigger::setTargetValue(int target)
+{
+    targetValuei_ = target;
+}
+
+void Trigger::setDuration(int duration)
+{
+    duration_ = duration;
+}
+
 std::optional<TriggerType> Trigger::fromApiString(const QString &type)
 {
     if(type == "triggerAbove")
@@ -124,6 +210,8 @@ std::optional<TriggerType> Trigger::fromApiString(const QString &type)
         return TriggerType::TriggerOnTime;
     else if (type == "scheduleOnDuration")
         return TriggerType::ScheduleOnDuration;
+    else if (type == "triggertwovalues")
+        return TriggerType::TriggerTwoValues;
 
     return std::nullopt;
 }
@@ -140,6 +228,8 @@ QString Trigger::typeToApiString(TriggerType type) const
         return "triggerOnTime";
     case TriggerType::ScheduleOnDuration:
         return "scheduleOnDuration";
+    case TriggerType::TriggerTwoValues:
+        return "triggertwovalues";
     }
 
     return {};
