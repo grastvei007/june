@@ -115,6 +115,18 @@ void TriggerData::uplaodTriggerFile(const QString &filename)
     }
 }
 
+void TriggerData::removeTrigger(const QString &triggerName)
+{
+    QJsonObject obj;
+    obj.insert("triggername", triggerName);
+    QNetworkReply *reply = networkAccessManager_.post(networkRequestFactory_.createRequest(
+                                                          "/trigger/remove"),
+                                                      QJsonDocument(obj).toJson());
+    std::erase_if(triggers_, [&triggerName](auto &trigger)
+                  {return trigger.triggerName() == triggerName;});
+    emit dataReady();
+}
+
 void TriggerData::fetchFromServer()
 {
     QNetworkReply *reply = networkAccessManager_.get(networkRequestFactory_.createRequest("/trigger/get"));
