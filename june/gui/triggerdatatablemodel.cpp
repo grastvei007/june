@@ -120,6 +120,16 @@ bool TriggerDataTableModel::insertRows(int row, int count, const QModelIndex &pa
     return true;
 }
 
+bool TriggerDataTableModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row + count);
+    const QString triggerName = data(index(row, eTriggerName)).toString();
+    triggerData_->removeTrigger(triggerName);
+    endRemoveColumns();
+
+    return true;
+}
+
 void TriggerDataTableModel::onTriggerAdded(int)
 {
     beginResetModel();

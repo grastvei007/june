@@ -21,7 +21,6 @@ TriggerGuiWidget::TriggerGuiWidget(TriggerData *triggerData, QWidget *parent) :
     tableView_->setModel(tableModel_.get());
 
     tableTool_ = TableTool(tableView_.get())
-                     .addRows(true)
                      .removeRows(true)
                      .addCustomItem(customItemAddTrigger_)
                      .addCustomItem(customItemUploadFromFile_)

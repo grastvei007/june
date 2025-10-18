@@ -44,6 +44,7 @@ public:
     std::optional<TriggerType> fromString(const QString &type);
 
     void uplaodTriggerFile(const QString &filename);
+    void removeTrigger(const QString &triggerName);
 
     void fetchFromServer();
 signals:
