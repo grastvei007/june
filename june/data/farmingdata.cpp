@@ -106,7 +106,7 @@ QTime FarmingData::turnOffGrowLight() const
                                }))
     {
         int target = trigger.targetValuei();
-        int durationMs = trigger.duration() * 1000;
+        int durationMs = trigger.duration();
 
         return QTime::fromMSecsSinceStartOfDay(target + durationMs);
     }

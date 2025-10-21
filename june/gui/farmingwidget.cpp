@@ -15,6 +15,9 @@ FarmingWidget::FarmingWidget(FarmingData *data, QWidget *parent) :
     sensors.push_front("none");
     ui_->temperatureSensors->addItems(sensors);
 
+    ui_->growLightOn->setDisplayFormat("hh:mm");
+    ui_->growLightOff->setDisplayFormat("hh:mm");
+
     connect(data, &FarmingData::dataReady, this, &FarmingWidget::populateData);
     data->fetchFromServer();
 
@@ -95,6 +98,9 @@ void FarmingWidget::onEnableGrowLight(Qt::CheckState state)
 
 void FarmingWidget::onTemperatureChanged()
 {
+    if (isPopulatingData_)
+        return;
+
     bool ok;
     double value = ui_->dirtTemperature->text().toDouble(&ok);
     if (isPopulatingData_ || !ok)
@@ -105,10 +111,13 @@ void FarmingWidget::onTemperatureChanged()
 void FarmingWidget::onGrowLightTimeChanged(QTime time)
 {
     Q_UNUSED(time);
-    int on = ui_->growLightOn->time().msecsSinceStartOfDay() / 1000;
-    int off = ui_->growLightOff->time().msecsSinceStartOfDay() / 1000;
+    if (isPopulatingData_)
+        return;
 
-    if (off > on)
+    int on = ui_->growLightOn->time().msecsSinceStartOfDay();
+    int off = ui_->growLightOff->time().msecsSinceStartOfDay();
+
+    if (off < on)
         return;
 
     data_->setGrowLigtTime(on, off - on);
