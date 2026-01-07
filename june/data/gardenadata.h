@@ -5,7 +5,9 @@
 #include <QNetworkRequestFactory>
 #include <QObject>
 
-class GardenaData : public QObject
+#include "triggerbasedata.h"
+
+class GardenaData : public TriggerBaseData
 {
 	Q_OBJECT
   public:
@@ -13,9 +15,10 @@ class GardenaData : public QObject
 				QNetworkRequestFactory &networkRequestFactory,
 				QObject *parent = nullptr);
 
+  protected:
+	void createMissingTriggers() override;
+
   private:
-	QNetworkRequestFactory &networkRequestFactory_;
-	QNetworkAccessManager &networkAccessManager_;
 };
 
 #endif // GARDENADATA_H

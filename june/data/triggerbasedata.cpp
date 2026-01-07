@@ -61,6 +61,21 @@ void TriggerBaseData::sendToServer()
 	}
 }
 
+int TriggerBaseData::numberOfTriggers() const
+{
+	return triggers_.size();
+}
+
+const Trigger &TriggerBaseData::getTrigger(unsigned int index) const
+{
+	return triggers_.at(index);
+}
+
+Trigger &TriggerBaseData::getTrigger(unsigned int index)
+{
+	return triggers_.at(index);
+}
+
 void TriggerBaseData::onFetchFromServerFinnished()
 {
 	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());

@@ -21,6 +21,10 @@ class TriggerBaseData : public QObject
 
 	void fetchFromServer();
 	void sendToServer();
+	int numberOfTriggers() const;
+
+	const Trigger &getTrigger(unsigned int index) const;
+	Trigger &getTrigger(unsigned int index);
 
   signals:
 	void dataReady();
