@@ -56,6 +56,8 @@ qt_add_executable(june
     data/logvaluedata.cpp
     data/tagsocketbindingdata.h
     data/tagsocketbindingdata.cpp
+    data/triggerbasedata.h
+    data/triggerbasedata.cpp
     data/triggerdata.h
     data/triggerdata.cpp
     data/trigger.h
