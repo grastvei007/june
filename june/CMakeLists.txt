@@ -76,6 +76,8 @@ qt_add_executable(june
     gui/gardenawidget.h
     gui/gardenawidget.cpp
 
+    gui/gardenadatatablemodel.h
+    gui/gardenadatatablemodel.cpp
     gui/logvaluetablemodel.h
     gui/logvaluetablemodel.cpp
     gui/logvaluewidget.h
