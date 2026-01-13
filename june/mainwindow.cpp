@@ -42,8 +42,9 @@ MainWindow::MainWindow(CentralWiddgetFactory &centralWidgetFactory, QNetworkAcce
     mListWidget->addItem("TagSocketBinding");
     mListWidget->addItem("LogValues");
     mListWidget->addItem("Farming");
+	mListWidget->addItem("Gardena");
 
-    setCentralWidgetByName("Triggers");
+	setCentralWidgetByName("Triggers");
 }
 
 MainWindow::~MainWindow()

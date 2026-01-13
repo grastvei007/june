@@ -50,10 +50,14 @@ qt_add_executable(june
 
     data/farmingdata.h
     data/farmingdata.cpp
+    data/gardenadata.h
+    data/gardenadata.cpp
     data/logvaluedata.h
     data/logvaluedata.cpp
     data/tagsocketbindingdata.h
     data/tagsocketbindingdata.cpp
+    data/triggerbasedata.h
+    data/triggerbasedata.cpp
     data/triggerdata.h
     data/triggerdata.cpp
     data/trigger.h
@@ -69,6 +73,11 @@ qt_add_executable(june
     gui/addvaluedialog.cpp
     gui/farmingwidget.h
     gui/farmingwidget.cpp
+    gui/gardenawidget.h
+    gui/gardenawidget.cpp
+
+    gui/gardenadatatablemodel.h
+    gui/gardenadatatablemodel.cpp
     gui/logvaluetablemodel.h
     gui/logvaluetablemodel.cpp
     gui/logvaluewidget.h
@@ -83,6 +92,7 @@ qt_add_executable(june
     gui/addvaluedialog.ui
     gui/addtrigger.ui
     gui/farmingwidget.ui
+    gui/gardenawidget.ui
 )
 
 
