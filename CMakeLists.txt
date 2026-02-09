@@ -33,5 +33,5 @@ add_subdirectory(software)
 
 add_dependencies(device tagsystem)
 add_dependencies(hwcom device)
-add_dependencies(juneserver tagsystem influxdb)
+add_dependencies(juneserver juneserverlib)
 add_dependencies(june tagsystem)
