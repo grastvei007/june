@@ -216,7 +216,7 @@ std::optional<TriggerType> Trigger::fromApiString(const QString &type)
     return std::nullopt;
 }
 
-QString Trigger::typeToApiString(TriggerType type) const
+QString Trigger::typeToApiString(TriggerType type)
 {
     switch(type)
     {
@@ -232,5 +232,5 @@ QString Trigger::typeToApiString(TriggerType type) const
         return "triggertwovalues";
     }
 
-    return {};
+	Q_UNREACHABLE();
 }

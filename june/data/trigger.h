@@ -44,8 +44,9 @@ public:
     void setDuration(int duration);
 
     static std::optional<TriggerType> fromApiString(const QString &type);
-private:
-    QString typeToApiString(TriggerType type) const;
+	static QString typeToApiString(TriggerType type);
+
+  private:
     TriggerType type_;
     QString triggerName_;
     QString watchTag_;
