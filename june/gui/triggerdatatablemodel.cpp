@@ -23,7 +23,7 @@ int TriggerDataTableModel::rowCount(const QModelIndex &parent) const
 int TriggerDataTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 5;
+	return 6;
 }
 
 QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -33,8 +33,10 @@ QVariant TriggerDataTableModel::headerData(int section, Qt::Orientation orientat
             switch (section) {
             case eTriggerName:
                 return "Trigger name";
-            case eTargetTagName:
-                return "Target Tag";
+			case eTriggerType:
+				return "Trigger Type";
+			case eTargetTagName:
+				return "Target Tag";
             case eTriggerValue:
                 return "Trigger value";
             case eActive:
@@ -62,7 +64,9 @@ QVariant TriggerDataTableModel::data(const QModelIndex &index, int role) const
         switch (index.column()) {
         case eTriggerName:
             return trigger.triggerName();
-        case eTargetTagName:
+		case eTriggerType:
+			return Trigger::typeToApiString(trigger.triggerType());
+		case eTargetTagName:
             return trigger.watchTag();
         case eTriggerValue:
         {
