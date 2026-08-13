@@ -27,7 +27,7 @@ int PiGpioTableModel::rowCount(const QModelIndex &parent) const
 
 int PiGpioTableModel::columnCount(const QModelIndex &parent) const
 {
-    return 4;
+	return 5;
 }
 
 QVariant PiGpioTableModel::data(const QModelIndex &index, int role) const
@@ -40,6 +40,8 @@ QVariant PiGpioTableModel::data(const QModelIndex &index, int role) const
         {
         case eWiringPiPin:
             return gpioPin.wiringPiPin();
+		case eHookupTag:
+			return gpioPin.hookupTag();
         case eTag:
             return gpioPin.tagFullName();
         case eDirection:
@@ -74,6 +76,8 @@ QVariant PiGpioTableModel::headerData(int section, Qt::Orientation orientation, 
                 return "Tag";
             case eDirection:
                 return "Direction";
+			case eHookupTag:
+				return "Hookup to Tag";
             case eEnabled:
                 return "Enabled";
             default:

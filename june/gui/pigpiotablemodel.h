@@ -9,7 +9,7 @@ class PiGpioTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    enum Colums {eWiringPiPin, eTag, eDirection, eEnabled};
+	enum Colums {eWiringPiPin, eTag, eDirection, eHookupTag, eEnabled};
     PiGpioTableModel();
     PiGpioTableModel(PiGpioData *data);
 

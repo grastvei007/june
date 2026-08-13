@@ -11,12 +11,14 @@ class RpiGpioPin
 {
 public:
     RpiGpioPin(const QString &tagSubsystem,
+			   const QString &hookupTag,
                const QString &tagName,
                int wiringPiPin,
                const QString &direction,
                bool enabled);
 
     QString tagFullName() const;
+	QString hookupTag() const;
     const QString &direction() const;
     int wiringPiPin() const;
     bool enabled() const;
@@ -26,6 +28,7 @@ public:
 
 private:
     QString tagSubsystem_;
+	QString hookupTag_;
     QString tagName_;
     int wiringPiPin_;
     QString direction_;

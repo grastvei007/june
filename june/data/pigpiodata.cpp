@@ -13,11 +13,13 @@
 
 
 RpiGpioPin::RpiGpioPin(const QString &tagSubsystem,
+					   const QString &hookupTag,
                        const QString &tagName,
                        int wiringPiPin,
                        const QString &direction,
                        bool enabled)
     : tagSubsystem_(tagSubsystem)
+	, hookupTag_(hookupTag)
     , tagName_(tagName)
     , wiringPiPin_(wiringPiPin)
     , direction_(direction)
@@ -27,6 +29,11 @@ RpiGpioPin::RpiGpioPin(const QString &tagSubsystem,
 QString RpiGpioPin::tagFullName() const
 {
     return QString("%1.%2").arg(tagSubsystem_, tagName_);
+}
+
+QString RpiGpioPin::hookupTag() const
+{
+	return hookupTag_;
 }
 
 const QString &RpiGpioPin::direction() const
@@ -114,12 +121,13 @@ void PiGpioData::onFetchFromServerFinnished()
         const QJsonObject &pin = ref.toObject();
 
         auto subsystem = pin.value("subsystem").toString();
+		auto hookupToTag = pin.value("hookup_tag").toString();
         auto tagName = pin.value("tag").toString();
         auto wiringPiPin = pin.value("wiringpi").toInt();
         auto dir = pin.value("dir").toString();
         auto enabled = pin.value("enabled").toBool();
 
-        gpioPins_.emplace_back(subsystem, tagName, wiringPiPin, dir, enabled);
+		gpioPins_.emplace_back(subsystem, hookupToTag, tagName, wiringPiPin, dir, enabled);
     }
 
     emit dataReady();
